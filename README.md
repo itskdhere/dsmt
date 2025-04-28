@@ -1,25 +1,25 @@
-# Docker Storage Migration Tool (DSMT)
+# 🐳 Docker Storage Migration Tool (DSMT) 📦
 
 A command-line utility for seamlessly exporting and importing Docker volumes and bind mounts.
 
-## Overview
+## 🔍 Overview
 
 DSMT (Docker Storage Migration Tool) provides a simple way to:
 
-- Export Docker volumes or bind mounts to compressed tarballs
-- Import tarballs into Docker volumes or bind mounts
+- 📤 Export Docker volumes or bind mounts to compressed tarballs.
+- 📥 Import compressed tarballs into Docker volumes or bind mounts.
 
-This tool makes it easy to backup, restore, or migrate Docker storage across systems.
+🔄 This tool makes it easy to backup, restore, or migrate Docker storage across systems.
 
-## Installation
+## 💻 Installation
 
 ```bash
 npm install -g dsmt
 ```
 
-## Usage
+## 🚀 Usage
 
-### Exporting Docker Storage
+### 📤 Exporting Docker Storage
 
 Export a Docker volume:
 
@@ -33,7 +33,7 @@ Export a bind mount:
 dsmt export /path/to/bind/mount /path/to/export/directory
 ```
 
-### Importing Docker Storage
+### 📥 Importing Docker Storage
 
 Import to a Docker volume:
 
@@ -47,7 +47,7 @@ Import to a bind mount:
 dsmt import /path/to/tarball.tar.gz /path/to/bind/mount
 ```
 
-## Options
+## ⚙️ Options
 
 Both commands support the following options:
 
@@ -56,7 +56,7 @@ Both commands support the following options:
 
 The tool will automatically detect the source/destination type in most cases, but you can use these flags to be explicit.
 
-## Examples
+## 📋 Examples
 
 ```bash
 # Export a volume named 'mongodb_data' to the current directory
@@ -72,7 +72,7 @@ dsmt export /var/www/html /backups
 dsmt import ./html.tar.gz /var/www/html
 ```
 
-## Development
+## 🛠️ Development
 
 ```bash
 # Clone the repository
@@ -86,6 +86,6 @@ npm install
 npm run dev
 ```
 
-## License
+## 📄 License
 
 MIT © [itskdhere](https://github.com/itskdhere)
