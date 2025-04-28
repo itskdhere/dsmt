@@ -1,4 +1,4 @@
-# 🐳 Docker Storage Migration Tool (DSMT) 📦
+# 🐳 Docker Storage Migration Tool 📦
 
 A command-line utility for seamlessly exporting and importing Docker volumes and bind mounts.
 
@@ -72,19 +72,13 @@ dsmt export /var/www/html /backups
 dsmt import ./html.tar.gz /var/www/html
 ```
 
-## 🛠️ Development
+## 🛠️ Contribution
 
-```bash
-# Clone the repository
-git clone https://github.com/itskdhere/dsmt.git
-cd dsmt
+Please refer to the [CONTRIBUTING.md](CONTRIBUTING.md) file for guidelines on contributing to this project.
 
-# Install dependencies
-npm install
+## 🔒 Security
 
-# Run the development build
-npm run dev
-```
+Please refer to the [SECURITY.md](SECURITY.md) file for security-related issues and reporting.
 
 ## 📄 License
 
