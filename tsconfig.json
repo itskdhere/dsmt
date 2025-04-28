@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Node LTS (22)",
+  "_version": "22.0.0",
+  "compilerOptions": {
+    "lib": [
+      "es2023"
+    ],
+    "outDir": "dist",
+    "rootDir": "src",
+    "module": "node16",
+    "target": "es2022",
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "moduleResolution": "node16",
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "build",
+    "dist",
+  ]
+}
