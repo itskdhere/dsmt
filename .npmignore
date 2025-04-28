@@ -15,6 +15,7 @@ __tests__/
 
 # Documentation files (except README.md)
 docs/
+CODE_OF_CONDUCT.md
 
 # Development scripts and tools
 scripts/
