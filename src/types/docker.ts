@@ -1,3 +1,9 @@
+export interface IDockerConnectionConfig {
+  socketPath?: string;
+  host?: string;
+  port?: number;
+}
+
 export interface IContainerArgs {
   name: string;
   src: string;
