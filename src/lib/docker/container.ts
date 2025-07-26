@@ -1,5 +1,4 @@
-import axios from "axios";
-
+import { dockerClient } from "../connection/client.js";
 import { IContainerArgs } from "../../types/docker.js";
 
 export async function containerCreate({
@@ -12,10 +11,8 @@ export async function containerCreate({
   const binds = [`${src}:/src`, `${dst}:/dst`];
 
   try {
-    const createResponse = await axios({
+    const createResponse = await dockerClient("/containers/create", {
       method: "POST",
-      socketPath: "/var/run/docker.sock",
-      url: `http://localhost/containers/create`,
       data: {
         Image: image,
         Tty: false,
@@ -40,10 +37,8 @@ export async function containerCreate({
 
 export async function containerStart(containerId: string): Promise<void> {
   try {
-    await axios({
+    await dockerClient(`/containers/${containerId}/start`, {
       method: "POST",
-      socketPath: "/var/run/docker.sock",
-      url: `http://localhost/containers/${containerId}/start`,
     });
   } catch (error) {
     console.error(`Failed to start Docker container ${containerId}:`, error);
@@ -59,10 +54,8 @@ export async function containerStart(containerId: string): Promise<void> {
 
 export async function containerWait(containerId: string): Promise<number> {
   try {
-    const response = await axios({
+    const response = await dockerClient(`/containers/${containerId}/wait`, {
       method: "POST",
-      socketPath: "/var/run/docker.sock",
-      url: `http://localhost/containers/${containerId}/wait`,
     });
     if (response.data.StatusCode !== 0) {
       throw new Error(
@@ -78,10 +71,8 @@ export async function containerWait(containerId: string): Promise<number> {
 
 export async function containerRemove(containerId: string): Promise<void> {
   try {
-    await axios({
+    await dockerClient(`/containers/${containerId}`, {
       method: "DELETE",
-      socketPath: "/var/run/docker.sock",
-      url: `http://localhost/containers/${containerId}`,
     });
   } catch (error) {
     console.warn(`Failed to remove Docker container ${containerId}:`, error);

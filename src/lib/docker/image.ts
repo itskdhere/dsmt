@@ -1,11 +1,9 @@
-import axios from "axios";
+import { dockerClient } from "../connection/client.js";
 
 export async function imageList(): Promise<string[]> {
   try {
-    const response = await axios({
+    const response = await dockerClient("/images/json", {
       method: "GET",
-      socketPath: "/var/run/docker.sock",
-      url: `http://localhost/images/json`,
     });
     return response.data
       .map((image: any) => image.RepoTags)
@@ -19,10 +17,8 @@ export async function imageList(): Promise<string[]> {
 
 export async function imagePull(image: string) {
   try {
-    const response = await axios({
+    const response = await dockerClient(`/images/create?fromImage=${image}`, {
       method: "POST",
-      socketPath: "/var/run/docker.sock",
-      url: `http://localhost/images/create?fromImage=${image}`,
     });
     return response.data;
   } catch (error) {
