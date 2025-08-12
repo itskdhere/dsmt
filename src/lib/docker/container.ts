@@ -1,28 +1,23 @@
 import { dockerClient } from "../connection/client.js";
-import { IContainerArgs } from "../../types/docker.js";
+import { IContainerCreateBody } from "../../types/container.js";
 
-export async function containerCreate({
-  name,
-  src,
-  dst,
-  cmd,
-  image,
-}: IContainerArgs): Promise<string> {
-  const binds = [`${src}:/src`, `${dst}:/dst`];
-
+export async function containerCreate(
+  name: string,
+  { Image, Cmd, Tty = false, HostConfig }: IContainerCreateBody
+): Promise<string> {
   try {
-    const createResponse = await dockerClient("/containers/create", {
-      method: "POST",
-      data: {
-        Image: image,
-        Tty: false,
-        Cmd: cmd,
-        HostConfig: {
-          AutoRemove: true,
-          Binds: binds,
-        },
-      },
-    });
+    const createResponse = await dockerClient(
+      `/containers/create${name ? `?name=${name}` : ""}`,
+      {
+        method: "POST",
+        data: {
+          Image,
+          Cmd,
+          Tty,
+          HostConfig,
+        } as IContainerCreateBody,
+      }
+    );
     if (!createResponse.data || !createResponse.data.Id) {
       throw new Error(
         "Failed to create container: Invalid response from Docker API"
