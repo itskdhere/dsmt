@@ -9,7 +9,7 @@ const program = new Command();
 program
   .name("dsmt")
   .description("Docker Storage Migration Tool")
-  .version("0.1.1");
+  .version("0.2.0");
 
 program
   .command("export")

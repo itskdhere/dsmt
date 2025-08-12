@@ -1,6 +1,6 @@
 # 🐳 Docker Storage Migration Tool 📦
 
-A command-line utility for seamlessly exporting and importing Docker volumes and bind mounts.
+`dsmt` is a command-line utility for seamlessly exporting and importing Docker volumes and bind mounts.
 
 ## 🔍 Overview
 
@@ -52,7 +52,7 @@ dsmt import /path/to/tarball.tar.gz /path/to/bind/mount
 Both commands support the following options:
 
 - `-v, --volume`: Explicitly specify source/destination as a Docker volume
-- `-m, --mount`: Explicitly specify source/destination as a bind mount
+- `-b, --bind`: Explicitly specify source/destination as a bind mount
 
 The tool will automatically detect the source/destination type in most cases, but you can use these flags to be explicit.
 
