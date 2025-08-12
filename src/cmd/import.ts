@@ -6,23 +6,23 @@ import fs from "fs";
 
 import { ensureAbsolutePath } from "../lib/etc/utils.js";
 
+const image = "busybox:latest";
+
 export default async function importCmd(
   src: string,
   dst: string,
   options: any
 ) {
-  if (options.volume && options.mount) {
+  if (options.volume && options.bind) {
     console.error(
-      chalk.red(
-        "Cannot use both --volume and --mount options at the same time."
-      )
+      chalk.red("Cannot use both --volume and --bind options at the same time.")
     );
     process.exit(1);
   }
 
-  if (!options.volume && !options.mount) {
-    if (dst.startsWith("/") || dst.startsWith("./") || dst.startsWith("../")) {
-      options.mount = true;
+  if (!options.volume && !options.bind) {
+    if (dst.includes("/") || dst.includes("\\")) {
+      options.bind = true;
       console.log(chalk.blue(`Auto-detected bind mount path: ${dst}`));
     } else {
       options.volume = true;
@@ -31,13 +31,13 @@ export default async function importCmd(
   }
 
   if (options.volume) {
-    await importVolume(src, dst, options);
-  } else if (options.mount) {
-    await importMount(src, dst, options);
+    await importVolume(src, dst);
+  } else if (options.bind) {
+    await importBind(src, dst);
   }
 }
 
-async function importMount(src: string, dst: string, options: any) {
+async function importBind(src: string, dst: string) {
   const spinner = ora("Preparing to import to Docker bind mount...").start();
   try {
     const srcPath = ensureAbsolutePath(src);
@@ -48,17 +48,29 @@ async function importMount(src: string, dst: string, options: any) {
     }
 
     const name = path.basename(srcPath);
+    const srcDir = path.dirname(srcPath);
 
     spinner.text = `Importing from ${chalk.blue(
       srcPath
     )} to bind mount ${chalk.green(dstPath)}`;
 
     await docker.run({
-      name: name,
-      src: srcPath,
-      dst: dstPath,
-      cmd: ["tar", "xzf", `/src/${name}`, "-C", "/dst"],
-      options,
+      name: `dsmt-import-${name}`,
+      rm: true,
+      mounts: [
+        {
+          Type: "bind",
+          Source: srcDir,
+          Target: "/src",
+        },
+        {
+          Type: "bind",
+          Source: dstPath,
+          Target: "/dst",
+        },
+      ],
+      image: image,
+      cmdArgs: ["tar", "xzf", `/src/${name}`, "-C", "/dst"],
     });
 
     spinner.succeed(
@@ -70,7 +82,7 @@ async function importMount(src: string, dst: string, options: any) {
   }
 }
 
-async function importVolume(src: string, dst: string, options: any) {
+async function importVolume(src: string, dst: string) {
   const spinner = ora("Preparing to import to Docker volume...").start();
   try {
     const srcPath = ensureAbsolutePath(src);
@@ -81,17 +93,29 @@ async function importVolume(src: string, dst: string, options: any) {
     }
 
     const name = path.basename(srcPath);
+    const srcDir = path.dirname(srcPath);
 
     spinner.text = `Importing from ${chalk.blue(
       srcPath
     )} to volume ${chalk.green(volumeName)}`;
 
     await docker.run({
-      name: name,
-      src: srcPath,
-      dst: volumeName,
-      cmd: ["tar", "xzf", `/src/${name}`, "-C", "/dst"],
-      options,
+      name: `dsmt-import-${name}`,
+      rm: true,
+      mounts: [
+        {
+          Type: "bind",
+          Source: srcDir,
+          Target: "/src",
+        },
+        {
+          Type: "volume",
+          Source: volumeName,
+          Target: "/dst",
+        },
+      ],
+      image: image,
+      cmdArgs: ["tar", "xzf", `/src/${name}`, "-C", "/dst"],
     });
 
     spinner.succeed(

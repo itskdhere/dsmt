@@ -9,14 +9,14 @@ const program = new Command();
 program
   .name("dsmt")
   .description("Docker Storage Migration Tool")
-  .version("0.1.0");
+  .version("0.1.1");
 
 program
   .command("export")
   .argument("<src>", "volume name or bind mount path")
   .argument("<dst>", "path to export to")
   .option("-v, --volume", "Volume")
-  .option("-m, --mount", "Mount")
+  .option("-b, --bind", "Bind Mount")
   .description("Export a Docker Volume or Bind Mount to a Tarball")
   .action(async (src, dst, options) => await exportCmd(src, dst, options));
 
@@ -25,7 +25,7 @@ program
   .argument("<src>", "path to import from")
   .argument("<dst>", "volume name or bind mount path")
   .option("-v, --volume", "Volume")
-  .option("-m, --mount", "Mount")
+  .option("-b, --bind", "Bind Mount")
   .description("Import a Docker Volume or Bind Mount from a Tarball")
   .action(async (src, dst, options) => await importCmd(src, dst, options));
 

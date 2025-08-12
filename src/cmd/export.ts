@@ -5,23 +5,23 @@ import path from "path";
 
 import { ensureAbsolutePath } from "../lib/etc/utils.js";
 
+const image = "busybox:latest";
+
 export default async function exportCmd(
   src: string,
   dst: string,
   options: any
 ) {
-  if (options.volume && options.mount) {
+  if (options.volume && options.bind) {
     console.error(
-      chalk.red(
-        "Cannot use both --volume and --mount options at the same time."
-      )
+      chalk.red("Cannot use both --volume and --bind options at the same time.")
     );
     process.exit(1);
   }
 
-  if (!options.volume && !options.mount) {
-    if (src.startsWith("/") || src.startsWith("./") || src.startsWith("../")) {
-      options.mount = true;
+  if (!options.volume && !options.bind) {
+    if (src.includes("/") || src.includes("\\")) {
+      options.bind = true;
       console.log(chalk.blue(`Auto-detected bind mount path: ${src}`));
     } else {
       options.volume = true;
@@ -30,13 +30,13 @@ export default async function exportCmd(
   }
 
   if (options.volume) {
-    await exportVolume(src, dst, options);
-  } else if (options.mount) {
-    await exportMount(src, dst, options);
+    await exportVolume(src, dst);
+  } else if (options.bind) {
+    await exportBind(src, dst);
   }
 }
 
-async function exportMount(src: string, dst: string, options: any) {
+async function exportBind(src: string, dst: string) {
   const spinner = ora("Preparing to export Docker bind mount...").start();
   try {
     const srcPath = ensureAbsolutePath(src);
@@ -48,11 +48,22 @@ async function exportMount(src: string, dst: string, options: any) {
     )} to ${chalk.green(dst)}`;
 
     await docker.run({
-      name: name,
-      src: srcPath,
-      dst: dstPath,
-      cmd: ["tar", "czf", `/dst/${name}.tar.gz`, "-C", "/src", "."],
-      options,
+      name: `dsmt-export-${name}`,
+      rm: true,
+      mounts: [
+        {
+          Type: "bind",
+          Source: srcPath,
+          Target: "/src",
+        },
+        {
+          Type: "bind",
+          Source: dstPath,
+          Target: "/dst",
+        },
+      ],
+      image: image,
+      cmdArgs: ["tar", "czf", `/dst/${name}.tar.gz`, "-C", "/src", "."],
     });
 
     spinner.succeed(
@@ -64,7 +75,7 @@ async function exportMount(src: string, dst: string, options: any) {
   }
 }
 
-async function exportVolume(src: string, dst: string, options: any) {
+async function exportVolume(src: string, dst: string) {
   const spinner = ora("Preparing to export Docker volume...").start();
   try {
     const volumeName = src;
@@ -76,11 +87,22 @@ async function exportVolume(src: string, dst: string, options: any) {
     )}`;
 
     await docker.run({
-      name: name,
-      src: volumeName,
-      dst: dstPath,
-      cmd: ["tar", "czf", `/dst/${name}.tar.gz`, "-C", "/src", "."],
-      options,
+      name: `dsmt-export-${name}`,
+      rm: true,
+      mounts: [
+        {
+          Type: "volume",
+          Source: volumeName,
+          Target: "/src",
+        },
+        {
+          Type: "bind",
+          Source: dstPath,
+          Target: "/dst",
+        },
+      ],
+      image,
+      cmdArgs: ["tar", "czf", `/dst/${name}.tar.gz`, "-C", "/src", "."],
     });
 
     spinner.succeed(`Successfully exported volume to ${chalk.green(dstPath)}`);
