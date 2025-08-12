@@ -1,16 +1,18 @@
+import { IMount } from "./container.js";
+import { IVolume } from "./volume.js";
+
 export interface IDockerConnectionConfig {
   socketPath?: string;
   host?: string;
   port?: number;
 }
 
-export interface IContainerArgs {
+export interface IDockerRunOptions {
   name: string;
-  src: string;
-  dst: string;
-  cmd: string[];
-  image?: string;
-  options?: {
-    [key: string]: any;
-  };
+  rm: boolean;
+  volumes?: IVolume[];
+  mounts?: IMount[];
+  tty?: boolean;
+  image: string;
+  cmdArgs: string[];
 }
