@@ -4,7 +4,7 @@
   "description": "Docker Storage Migration Tool",
   "type": "module",
   "bin": {
-    "dsmt": "./dist/cli.js"
+    "dsmt": "dist/cli.js"
   },
   "scripts": {
     "dev": "tsc -w",

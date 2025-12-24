@@ -37,8 +37,6 @@ export async function run(options: IDockerRunOptions) {
   });
 
   await containerStart(containerId);
-
-  await containerWait(containerId);
 }
 
 const docker = {
