@@ -17,6 +17,11 @@ import { IHostConfig } from "../../types/container.js";
 export async function run(options: IDockerRunOptions) {
   const { name, rm, mounts, volumes, tty, image, cmdArgs } = options;
 
+  const localImagesList = await imageList();
+  if (!localImagesList.includes(image)) {
+    await imagePull(image);
+  }
+
   let hostConfig: IHostConfig = {
     AutoRemove: rm,
     Binds: volumes?.map((v) => `${v.Name}:${v.Mountpoint}`),
