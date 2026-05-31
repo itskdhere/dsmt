@@ -7,7 +7,7 @@
     "dsmt": "dist/cli.js"
   },
   "scripts": {
-    "dev": "tsc -w",
+    "dev": "bun src/cli.ts",
     "build": "tsc"
   },
   "repository": {
