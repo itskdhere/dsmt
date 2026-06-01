@@ -10,11 +10,13 @@ const image = "busybox:latest";
 export default async function exportCmd(
   src: string,
   dst: string,
-  options: any
+  options: any,
 ) {
   if (options.volume && options.bind) {
     console.error(
-      chalk.red("Cannot use both --volume and --bind options at the same time.")
+      chalk.red(
+        "Cannot use both --volume and --bind options at the same time.",
+      ),
     );
     process.exit(1);
   }
@@ -44,7 +46,7 @@ async function exportBind(src: string, dst: string) {
     const name = path.basename(srcPath);
 
     spinner.text = `Exporting bind mount from ${chalk.blue(
-      srcPath
+      srcPath,
     )} to ${chalk.green(dst)}`;
 
     await docker.run({
@@ -67,7 +69,7 @@ async function exportBind(src: string, dst: string) {
     });
 
     spinner.succeed(
-      `Successfully exported bind mount to ${chalk.green(dstPath)}`
+      `Successfully exported bind mount to ${chalk.green(dstPath)}`,
     );
   } catch (error) {
     spinner.fail(`Failed to export bind mount: ${(error as Error).message}`);
@@ -83,7 +85,7 @@ async function exportVolume(src: string, dst: string) {
     const name = path.basename(src);
 
     spinner.text = `Exporting volume ${chalk.blue(src)} to ${chalk.green(
-      dstPath
+      dstPath,
     )}`;
 
     await docker.run({

@@ -1,0 +1,18 @@
+# Source files
+src/
+
+# Config files
+tsconfig.json
+
+# Test files
+__tests__/
+*.spec.ts
+*.test.ts
+
+# Build artifacts
+*.tsbuildinfo
+coverage/
+.nyc_output/
+
+# Logs
+*.log

@@ -17,7 +17,7 @@ export function detectLinuxDockerConnection(): IDockerConnectionConfig {
       "containers",
       "podman",
       "machine",
-      "podman.sock"
+      "podman.sock",
     ),
   ];
 

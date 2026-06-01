@@ -21,7 +21,7 @@ export function detectMacDockerConnection(): IDockerConnectionConfig {
       "containers",
       "podman",
       "machine",
-      "podman.sock"
+      "podman.sock",
     ),
   ];
 

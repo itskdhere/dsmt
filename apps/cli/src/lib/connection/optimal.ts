@@ -38,7 +38,7 @@ export async function getBestDockerConnection(): Promise<IDockerConnectionConfig
       { socketPath: "\\\\.\\pipe\\docker_engine" },
       { socketPath: "\\\\.\\pipe\\dockerWindowsEngine" },
       { host: "localhost", port: 2375 },
-      { host: "localhost", port: 2376 }
+      { host: "localhost", port: 2376 },
     );
   } else if (os.platform() === "darwin") {
     // macOS specific paths
@@ -48,7 +48,7 @@ export async function getBestDockerConnection(): Promise<IDockerConnectionConfig
           os.homedir(),
           ".docker",
           "desktop",
-          "docker.sock"
+          "docker.sock",
         ),
       },
       { socketPath: path.join(os.homedir(), ".docker", "run", "docker.sock") },
@@ -57,12 +57,12 @@ export async function getBestDockerConnection(): Promise<IDockerConnectionConfig
           os.homedir(),
           ".colima",
           "default",
-          "docker.sock"
+          "docker.sock",
         ),
       },
       { socketPath: "/var/run/docker.sock" },
       { host: "localhost", port: 2375 },
-      { host: "localhost", port: 2376 }
+      { host: "localhost", port: 2376 },
     );
   } else {
     // Linux and other Unix-like systems
@@ -73,7 +73,7 @@ export async function getBestDockerConnection(): Promise<IDockerConnectionConfig
           os.homedir(),
           ".docker",
           "desktop",
-          "docker.sock"
+          "docker.sock",
         ),
       },
       {
@@ -82,7 +82,7 @@ export async function getBestDockerConnection(): Promise<IDockerConnectionConfig
         }/podman/podman.sock`,
       },
       { host: "localhost", port: 2375 },
-      { host: "localhost", port: 2376 }
+      { host: "localhost", port: 2376 },
     );
   }
 
@@ -94,9 +94,9 @@ export async function getBestDockerConnection(): Promise<IDockerConnectionConfig
 
   throw new Error(
     `Failed to connect to Docker. Tried primary config: ${JSON.stringify(
-      primaryConfig
+      primaryConfig,
     )} ` +
       `and ${fallbackConfigs.length} fallback configurations. ` +
-      `Make sure Docker is running and accessible.`
+      `Make sure Docker is running and accessible.`,
   );
 }

@@ -7,7 +7,7 @@ import { IDockerConnectionConfig } from "../../types/docker.js";
 
 export async function dockerClient(
   endpoint: string,
-  options: Partial<AxiosRequestConfig> = {}
+  options: Partial<AxiosRequestConfig> = {},
 ) {
   const dockerConfig = await initializeDockerConnection();
   const config = createDockerAxiosConfig(dockerConfig, endpoint, options);
@@ -21,7 +21,7 @@ export async function initializeDockerConnection(): Promise<IDockerConnectionCon
   } catch (error) {
     console.error(
       chalk.red("Failed to connect to Docker:"),
-      (error as Error).message
+      (error as Error).message,
     );
     console.error(chalk.yellow("Make sure Docker is running and accessible."));
     process.exit(1);
@@ -31,7 +31,7 @@ export async function initializeDockerConnection(): Promise<IDockerConnectionCon
 function createDockerAxiosConfig(
   dockerConfig: IDockerConnectionConfig,
   endpoint: string,
-  options: Partial<AxiosRequestConfig> = {}
+  options: Partial<AxiosRequestConfig> = {},
 ): AxiosRequestConfig {
   // const dockerConfig = getDockerConfig();
 

@@ -11,11 +11,13 @@ const image = "busybox:latest";
 export default async function importCmd(
   src: string,
   dst: string,
-  options: any
+  options: any,
 ) {
   if (options.volume && options.bind) {
     console.error(
-      chalk.red("Cannot use both --volume and --bind options at the same time.")
+      chalk.red(
+        "Cannot use both --volume and --bind options at the same time.",
+      ),
     );
     process.exit(1);
   }
@@ -51,7 +53,7 @@ async function importBind(src: string, dst: string) {
     const srcDir = path.dirname(srcPath);
 
     spinner.text = `Importing from ${chalk.blue(
-      srcPath
+      srcPath,
     )} to bind mount ${chalk.green(dstPath)}`;
 
     await docker.run({
@@ -74,7 +76,7 @@ async function importBind(src: string, dst: string) {
     });
 
     spinner.succeed(
-      `Successfully imported to bind mount at ${chalk.green(dstPath)}`
+      `Successfully imported to bind mount at ${chalk.green(dstPath)}`,
     );
   } catch (error) {
     spinner.fail(`Failed to import to bind mount: ${(error as Error).message}`);
@@ -96,7 +98,7 @@ async function importVolume(src: string, dst: string) {
     const srcDir = path.dirname(srcPath);
 
     spinner.text = `Importing from ${chalk.blue(
-      srcPath
+      srcPath,
     )} to volume ${chalk.green(volumeName)}`;
 
     await docker.run({
@@ -119,7 +121,7 @@ async function importVolume(src: string, dst: string) {
     });
 
     spinner.succeed(
-      `Successfully imported to volume ${chalk.green(volumeName)}`
+      `Successfully imported to volume ${chalk.green(volumeName)}`,
     );
   } catch (error) {
     spinner.fail(`Failed to import to volume: ${(error as Error).message}`);
