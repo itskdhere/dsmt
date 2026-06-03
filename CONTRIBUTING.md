@@ -49,14 +49,17 @@ bun install
 bun run build
 bun run link
 
-# 1. Start development mode (watches TS files and compiles to dist/ on every change)
+# Start development mode (watches TS files and compiles to dist/ on every change)
 bun run dev
 
-# 2. Test your changes globally in another terminal:
+# Test your changes globally in another terminal:
 dsmt <command> [args]
 
 # Note: You can also run the TypeScript source directly without linking:
 bun apps/cli/src/cli.ts <command> [args]
+
+# Unlink the package when done
+bun run unlink
 ```
 
 ## Project Structure

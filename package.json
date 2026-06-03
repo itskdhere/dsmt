@@ -12,7 +12,8 @@
     "preinstall": "npx only-allow bun",
     "dev": "turbo run dev",
     "build": "turbo run build",
-    "link": "cd apps/cli && bun link"
+    "link": "cd apps/cli && bun link",
+    "unlink": "cd apps/cli && bun unlink"
   },
   "devDependencies": {
     "turbo": "^2.4.4",
