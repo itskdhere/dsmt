@@ -142,3 +142,8 @@ dist
 # Turborepo
 .turbo/
 **/dist/
+
+# Other package manager lockfiles to prevent accidental commit
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
