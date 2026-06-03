@@ -1,10 +1,15 @@
-# Docker Storage Migration Tool
+# DSMT
 
-`dsmt` is a command-line utility for seamlessly exporting and importing Docker volumes and bind mounts.
+[![NPM Version](https://img.shields.io/npm/v/dsmt.svg?label=version&logo=semver)](https://www.npmjs.com/package/dsmt)
+[![NPM Downloads](https://img.shields.io/npm/dm/dsmt.svg?logo=npm)](https://www.npmjs.com/package/dsmt)
+[![License](https://img.shields.io/github/license/itskdhere/dsmt.svg?logo=github)](https://github.com/itskdhere/dsmt/blob/main/LICENSE)
+[![Build Status](https://github.com/itskdhere/dsmt/actions/workflows/ci.yml/badge.svg)](https://github.com/itskdhere/dsmt/actions/workflows/ci.yml)
+
+**Docker Storage Migration Tool (DSMT)** is a command-line utility for seamlessly exporting and importing Docker volumes and bind mounts.
 
 ## Overview
 
-DSMT (Docker Storage Migration Tool) provides a simple way to:
+DSMT provides a simple way to:
 
 - Export Docker volumes or bind mounts to compressed tarballs.
 - Import compressed tarballs into Docker volumes or bind mounts.
@@ -115,3 +120,8 @@ Please refer to the [SECURITY.md](SECURITY.md) file for security-related issues 
 ## License
 
 MIT © [itskdhere](https://github.com/itskdhere)
+
+<br>
+<p align="center">
+  <a href="https://youtu.be/dQw4w9WgXcQ">🐳</a>
+</p>
