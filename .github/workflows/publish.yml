@@ -31,6 +31,11 @@ jobs:
       - name: Build
         run: bun run build
 
+      - name: Copy README and LICENSE to CLI
+        run: |
+          cp README.md apps/cli/README.md
+          cp LICENSE apps/cli/LICENSE
+
       - name: Make CLI Executable
         run: chmod +x apps/cli/dist/cli.js
 
