@@ -1,6 +1,6 @@
 {
   "name": "dsmt",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Docker Storage Migration Tool",
   "type": "module",
   "bin": {
@@ -14,12 +14,20 @@
     "type": "git",
     "url": "git+https://github.com/itskdhere/dsmt.git"
   },
-  "author": "itskdhere",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/itskdhere/dsmt/issues"
   },
   "homepage": "https://github.com/itskdhere/dsmt#readme",
+  "author": "itskdhere",
+  "license": "MIT",
+  "keywords": [
+    "dsmt",
+    "cli",
+    "docker",
+    "storage",
+    "migration",
+    "tool"
+  ],
   "dependencies": {
     "axios": "^1.8.4",
     "chalk": "^5.4.1",
