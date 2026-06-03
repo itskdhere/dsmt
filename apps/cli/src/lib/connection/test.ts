@@ -4,7 +4,7 @@ import { createNamedPipeAgent } from "./npipe.js";
 import { IDockerConnectionConfig } from "../../types/docker.js";
 
 export async function testDockerConnection(
-  config: IDockerConnectionConfig
+  config: IDockerConnectionConfig,
 ): Promise<boolean> {
   try {
     if (config.socketPath) {

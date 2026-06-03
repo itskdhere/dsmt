@@ -3,7 +3,7 @@ import { IContainerCreateBody } from "../../types/container.js";
 
 export async function containerCreate(
   name: string,
-  { Image, Cmd, Tty = false, HostConfig }: IContainerCreateBody
+  { Image, Cmd, Tty = false, HostConfig }: IContainerCreateBody,
 ): Promise<string> {
   try {
     const createResponse = await dockerClient(
@@ -16,11 +16,11 @@ export async function containerCreate(
           Tty,
           HostConfig,
         } as IContainerCreateBody,
-      }
+      },
     );
     if (!createResponse.data || !createResponse.data.Id) {
       throw new Error(
-        "Failed to create container: Invalid response from Docker API"
+        "Failed to create container: Invalid response from Docker API",
       );
     }
     return createResponse.data.Id;
@@ -40,8 +40,8 @@ export async function containerStart(containerId: string): Promise<void> {
     await containerRemove(containerId).catch((removeError) =>
       console.error(
         `Failed to remove container ${containerId} after start failure:`,
-        removeError
-      )
+        removeError,
+      ),
     );
     throw error;
   }
@@ -54,7 +54,7 @@ export async function containerWait(containerId: string): Promise<number> {
     });
     if (response.data.StatusCode !== 0) {
       throw new Error(
-        `Container ${containerId} exited with status code ${response.data.StatusCode}`
+        `Container ${containerId} exited with status code ${response.data.StatusCode}`,
       );
     }
     return response.data.StatusCode;

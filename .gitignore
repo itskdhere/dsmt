@@ -138,3 +138,12 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Turborepo
+.turbo/
+**/dist/
+
+# Other package manager lockfiles to prevent accidental commit
+package-lock.json
+yarn.lock
+pnpm-lock.yaml

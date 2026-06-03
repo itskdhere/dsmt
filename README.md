@@ -1,25 +1,57 @@
-# 🐳 Docker Storage Migration Tool 📦
+# Docker Storage Migration Tool
 
 `dsmt` is a command-line utility for seamlessly exporting and importing Docker volumes and bind mounts.
 
-## 🔍 Overview
+## Overview
 
 DSMT (Docker Storage Migration Tool) provides a simple way to:
 
-- 📤 Export Docker volumes or bind mounts to compressed tarballs.
-- 📥 Import compressed tarballs into Docker volumes or bind mounts.
+- Export Docker volumes or bind mounts to compressed tarballs.
+- Import compressed tarballs into Docker volumes or bind mounts.
 
-🔄 This tool makes it easy to backup, restore, or migrate Docker storage across systems.
+This tool makes it easy to backup, restore, or migrate Docker storage across systems.
 
-## 💻 Installation
+## Installation
+
+### Global Installation
+
+Choose your preferred package manager to install the CLI globally:
 
 ```bash
+# npm
 npm install -g dsmt
+
+# yarn
+yarn global add dsmt
+
+# pnpm
+pnpm add -g dsmt
+
+# bun
+bun add -g dsmt
 ```
 
-## 🚀 Usage
+### Run Directly
 
-### 📤 Exporting Docker Storage
+Or run directly without manual installation using:
+
+```bash
+# npx (npm)
+npx dsmt <command> [args]
+
+# bunx (bun)
+bunx dsmt <command> [args]
+
+# pnpm dlx
+pnpm dlx dsmt <command> [args]
+
+# yarn dlx
+yarn dlx dsmt <command> [args]
+```
+
+## Usage
+
+### Exporting Docker Storage
 
 Export a Docker volume:
 
@@ -33,7 +65,7 @@ Export a bind mount:
 dsmt export /path/to/bind/mount /path/to/export/directory
 ```
 
-### 📥 Importing Docker Storage
+### Importing Docker Storage
 
 Import to a Docker volume:
 
@@ -47,7 +79,7 @@ Import to a bind mount:
 dsmt import /path/to/tarball.tar.gz /path/to/bind/mount
 ```
 
-## ⚙️ Options
+## Options
 
 Both commands support the following options:
 
@@ -56,7 +88,7 @@ Both commands support the following options:
 
 The tool will automatically detect the source/destination type in most cases, but you can use these flags to be explicit.
 
-## 📋 Examples
+## Examples
 
 ```bash
 # Export a volume named 'mongodb_data' to the current directory
@@ -72,14 +104,14 @@ dsmt export /var/www/html /backups
 dsmt import ./html.tar.gz /var/www/html
 ```
 
-## 🛠️ Contribution
+## Contribution
 
 Please refer to the [CONTRIBUTING.md](CONTRIBUTING.md) file for guidelines on contributing to this project.
 
-## 🔒 Security
+## Security
 
 Please refer to the [SECURITY.md](SECURITY.md) file for security-related issues and reporting.
 
-## 📄 License
+## License
 
 MIT © [itskdhere](https://github.com/itskdhere)

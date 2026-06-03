@@ -19,7 +19,7 @@ export function detectWindowsDockerConnection(): IDockerConnectionConfig {
       encoding: "utf8",
     }).trim();
     const contextInfo = JSON.parse(
-      execSync(`docker context inspect ${contextName}`, { encoding: "utf8" })
+      execSync(`docker context inspect ${contextName}`, { encoding: "utf8" }),
     );
 
     if (
