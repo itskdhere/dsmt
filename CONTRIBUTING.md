@@ -20,7 +20,7 @@ When filing a bug report, please include:
 - A clear and descriptive title
 - Steps to reproduce the issue
 - Expected and actual behavior
-- System information (OS, Docker version, Node.js version)
+- System information (OS, Docker version, Bun version)
 - Any relevant logs or error messages
 
 ### Suggesting Features
@@ -43,21 +43,32 @@ git clone https://github.com/YOUR-USERNAME/dsmt.git
 cd dsmt
 
 # Install dependencies
-npm install
+bun install
 
-# Start development mode (watches for changes)
-npm run dev
+# Build and link the package globally (do this once)
+bun run build
+bun run link
 
-# Link the package globally for testing
-npm link
+# 1. Start development mode (watches TS files and compiles to dist/ on every change)
+bun run dev
+
+# 2. Test your changes globally in another terminal:
+dsmt <command> [args]
+
+# Note: You can also run the TypeScript source directly without linking:
+bun apps/cli/src/cli.ts <command> [args]
 ```
 
 ## Project Structure
 
-- cli.ts - CLI entry point
-- cmd - Command implementations
-- docker - Docker API wrapper
-- types - TypeScript type definitions
+This project is configured as a monorepo containing the following components:
+
+- `apps/cli/` - The Docker Storage Migration Tool CLI package.
+  - `src/cli.ts` - CLI entry point.
+  - `src/cmd/` - Command implementations.
+  - `src/lib/` - Core library functions and Docker API wrapper.
+  - `src/types/` - TypeScript type definitions.
+- `packages/tsconfig/` - Shared TypeScript configuration package.
 
 ## Coding Guidelines
 
