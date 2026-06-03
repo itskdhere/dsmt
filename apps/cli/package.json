@@ -7,7 +7,7 @@
     "dsmt": "dist/cli.js"
   },
   "scripts": {
-    "dev": "bun src/cli.ts",
+    "dev": "tsc --watch --preserveWatchOutput",
     "build": "tsc"
   },
   "repository": {
