@@ -1,8 +1,8 @@
-import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
-
-import "@dsmt/ui/globals.css";
+import type { Metadata } from "next";
+import { Space_Grotesk, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { cn } from "@dsmt/ui/lib/utils";
+import "@dsmt/ui/globals.css";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -13,6 +13,11 @@ const fontMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
 });
+
+export const metadata: Metadata = {
+  title: "DSMT",
+  description: "Docker Storage Migration Tool",
+};
 
 export default function RootLayout({
   children,
@@ -25,9 +30,9 @@ export default function RootLayout({
       suppressHydrationWarning
       className={cn(
         "antialiased",
-        fontMono.variable,
         "font-sans",
-        spaceGrotesk.variable
+        spaceGrotesk.variable,
+        fontMono.variable
       )}
     >
       <body>
