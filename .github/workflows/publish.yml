@@ -8,7 +8,7 @@ jobs:
   publish-npm:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       id-token: write
     steps:
       - name: Checkout Code
@@ -44,3 +44,12 @@ jobs:
         working-directory: apps/cli
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Compile Standalone Binaries
+        run: bun run compile:all
+        working-directory: apps/cli
+
+      - name: Upload Binaries to GitHub Release
+        run: gh release upload ${{ github.event.release.tag_name }} apps/cli/dist/bin/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
