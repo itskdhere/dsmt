@@ -1,7 +1,9 @@
+import Navbar from "@/components/navbar";
+
 export default function Page() {
   return (
-    <main className="flex min-h-svh w-full items-center justify-center">
-      <h1 className="text-5xl font-bold">Coming Soon</h1>
-    </main>
+    <div className="min-h-screen overflow-x-hidden bg-canvas text-text-primary selection:bg-primary-accent/30 selection:text-text-primary">
+      <Navbar />
+    </div>
   );
 }

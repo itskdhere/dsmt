@@ -49,6 +49,15 @@
   --radius-4xl: calc(var(--radius) * 2.6);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
+  --color-canvas: #030712;
+  --color-surface-1: #0b1329;
+  --color-surface-2: #111d3a;
+  --color-primary-accent: #0ea5e9;
+  --color-glow-accent: #14b8a6;
+  --color-secondary-accent: #1d4ed8;
+  --color-hairline: rgba(14, 165, 233, 0.12);
+  --color-text-primary: #f8fafc;
+  --color-text-muted: #94a3b8;
 }
 
 :root {
