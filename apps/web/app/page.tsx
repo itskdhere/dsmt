@@ -1,6 +1,7 @@
 import Navbar from "@/components/navbar";
 import Hero from "@/components/landing/hero";
 import Installation from "@/components/landing/installation";
+import Footer from "@/components/footer";
 
 export default function LandingPage() {
   return (
@@ -10,6 +11,7 @@ export default function LandingPage() {
         <Hero />
         <Installation />
       </main>
+      <Footer />
     </div>
   );
 }
