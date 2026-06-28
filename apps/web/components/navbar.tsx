@@ -1,8 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { IconDownload, IconMenu2, IconX } from "@tabler/icons-react";
-import Logo from "./logo";
+import logo from "@/assets/logo.svg";
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -38,9 +39,7 @@ export default function Navbar() {
         <div className="flex h-12 items-center justify-between">
           <div className="flex items-center gap-3">
             <a href="#" className="group flex items-center gap-2.5">
-              <div className="relative flex h-9 w-9 items-center justify-center rounded-lg border border-hairline bg-surface-1 transition-colors group-hover:border-primary-accent/40">
-                <Logo />
-              </div>
+              <Image src={logo} alt="DSMT" width={26} height={26} />
               <span className="font-sans text-xl font-bold tracking-tight text-text-primary">
                 DSMT
               </span>
