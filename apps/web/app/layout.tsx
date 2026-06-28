@@ -15,8 +15,9 @@ const fontMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "DSMT",
-  description: "Docker Storage Migration Tool",
+  title: "DSMT | Docker Storage Migration Tool",
+  description:
+    "Import and Export Docker Volumes and Bind Mounts on Windows, macOS, and Linux.",
 };
 
 export default function RootLayout({

@@ -5,7 +5,7 @@ export default function Footer() {
         <p className="font-sans text-sm text-text-muted">
           Built with{" "}
           <a
-            href="https://youtu.be/dQw4w9WgXcQ"
+            href="https://go.itskdhere.com/rr"
             target="_blank"
             rel="noopener noreferrer"
             className="font-medium text-primary-accent hover:underline"

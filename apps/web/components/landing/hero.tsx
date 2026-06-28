@@ -20,7 +20,7 @@ export default function HeroSection() {
 
       <div className="relative z-10 mx-auto max-w-5xl px-4 text-center sm:px-6 lg:px-8">
         <div className="animate-fade-in mb-8 inline-flex items-center gap-2 rounded-full border border-hairline bg-surface-1 px-3 py-1">
-          <span className="h-1.5 w-1.5 animate-ping rounded-full bg-glow-accent" />
+          {/* <span className="h-1.5 w-1.5 animate-ping rounded-full bg-glow-accent" /> */}
           <span className="font-mono text-xs font-semibold tracking-wider text-glow-accent">
             v0.3.2 Released
           </span>
