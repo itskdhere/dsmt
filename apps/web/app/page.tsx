@@ -1,5 +1,6 @@
 import Navbar from "@/components/navbar";
 import Hero from "@/components/landing/hero";
+import Installation from "@/components/landing/installation";
 
 export default function LandingPage() {
   return (
@@ -7,6 +8,7 @@ export default function LandingPage() {
       <Navbar />
       <main>
         <Hero />
+        <Installation />
       </main>
     </div>
   );
