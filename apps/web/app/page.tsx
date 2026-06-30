@@ -37,11 +37,7 @@ async function getLatestReleases(): Promise<LatestReleaseData> {
             if (name.includes("windows")) {
               platform = "Windows";
             } else if (name.includes("macos") || name.includes("darwin")) {
-              if (name.includes("arm64")) {
-                platform = "macOS (Apple Silicon)";
-              } else {
-                platform = "macOS (Intel)";
-              }
+              platform = "macOS";
             } else if (name.includes("linux")) {
               platform = "Linux";
             }
@@ -69,12 +65,13 @@ async function getLatestReleases(): Promise<LatestReleaseData> {
           .filter((item: BinaryRelease) => item.platform !== "Unknown");
 
         const getOrderIndex = (item: BinaryRelease) => {
-          if (item.platform === "Windows") return 0;
-          if (item.platform === "macOS (Apple Silicon)") return 1;
-          if (item.platform === "macOS (Intel)") return 2;
-          if (item.platform === "Linux" && item.arch === "x64") return 3;
-          if (item.platform === "Linux" && item.arch === "Arm64") return 4;
-          return 5;
+          if (item.platform === "Windows" && item.arch === "x64") return 0;
+          if (item.platform === "Linux" && item.arch === "x64") return 1;
+          if (item.platform === "macOS" && item.arch === "x64") return 2;
+          if (item.platform === "Windows" && item.arch === "ARM64") return 3;
+          if (item.platform === "Linux" && item.arch === "ARM64") return 4;
+          if (item.platform === "macOS" && item.arch === "ARM64") return 5;
+          return 6;
         };
 
         mapped.sort((a, b) => getOrderIndex(a) - getOrderIndex(b));

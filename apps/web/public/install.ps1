@@ -7,7 +7,17 @@ if (!$is64Bit) {
     exit 1
 }
 
-$binaryName = "dsmt-windows-x64.exe"
+# Detect OS Architecture
+$osArch = [System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture
+if ($osArch -eq 'Arm64') {
+    $binaryName = "dsmt-windows-arm64.exe"
+} elseif ($osArch -eq 'X64') {
+    $binaryName = "dsmt-windows-x64.exe"
+} else {
+    Write-Error "dsmt only supports x64 and ARM64 Windows environments (detected: $osArch)."
+    exit 1
+}
+
 $downloadUrl = "https://github.com/itskdhere/dsmt/releases/latest/download/$binaryName"
 $installDir = Join-Path $HOME ".dsmt\bin"
 $targetPath = Join-Path $installDir "dsmt.exe"

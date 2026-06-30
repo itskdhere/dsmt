@@ -14,7 +14,8 @@
     "compile:macos-x64": "bun build --compile --minify --target=bun-darwin-x64 ./src/cli.ts --outfile ./dist/bin/dsmt-macos-x64",
     "compile:macos-arm64": "bun build --compile --minify --target=bun-darwin-arm64 ./src/cli.ts --outfile ./dist/bin/dsmt-macos-arm64",
     "compile:windows-x64": "bun build --compile --minify --target=bun-windows-x64 ./src/cli.ts --outfile ./dist/bin/dsmt-windows-x64.exe",
-    "compile:all": "bun run compile:linux-x64 && bun run compile:linux-arm64 && bun run compile:macos-x64 && bun run compile:macos-arm64 && bun run compile:windows-x64"
+    "compile:windows-arm64": "bun build --compile --minify --target=bun-windows-arm64 ./src/cli.ts --outfile ./dist/bin/dsmt-windows-arm64.exe",
+    "compile:all": "bun run compile:linux-x64 && bun run compile:linux-arm64 && bun run compile:macos-x64 && bun run compile:macos-arm64 && bun run compile:windows-x64 && bun run compile:windows-arm64"
   },
   "repository": {
     "type": "git",
