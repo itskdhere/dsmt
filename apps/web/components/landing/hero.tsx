@@ -4,7 +4,11 @@ import {
   IconBrandGithub,
 } from "@tabler/icons-react";
 
-export default function HeroSection() {
+export interface HeroProps {
+  latestVersion?: string;
+}
+
+export default function HeroSection({ latestVersion }: HeroProps) {
   return (
     <section className="relative flex min-h-[80vh] items-center justify-center overflow-hidden bg-canvas pt-32 pb-16">
       <div className="pointer-events-none absolute inset-0">
@@ -19,13 +23,15 @@ export default function HeroSection() {
       </div>
 
       <div className="relative z-10 mx-auto max-w-5xl px-4 text-center sm:px-6 lg:px-8">
-        <div className="animate-fade-in mb-8 inline-flex items-center gap-2 rounded-full border border-hairline bg-surface-1 px-3 py-1">
-          {/* <span className="h-1.5 w-1.5 animate-ping rounded-full bg-glow-accent" /> */}
-          <span className="font-mono text-xs font-semibold tracking-wider text-glow-accent">
-            v0.3.2 Released
-          </span>
-          {/* <span className="text-xs font-medium text-text-muted">|</span> */}
-        </div>
+        {latestVersion && (
+          <div className="animate-fade-in mb-8 inline-flex items-center gap-2 rounded-full border border-hairline bg-surface-1 px-3 py-1">
+            {/* <span className="h-1.5 w-1.5 animate-ping rounded-full bg-glow-accent" /> */}
+            <span className="font-mono text-xs font-semibold tracking-wider text-glow-accent">
+              {latestVersion} Released
+            </span>
+            {/* <span className="text-xs font-medium text-text-muted">|</span> */}
+          </div>
+        )}
 
         <h1 className="mx-auto mb-6 max-w-4xl font-sans text-4xl leading-[1.1] font-extrabold tracking-[-0.04em] text-text-primary sm:text-6xl lg:text-7xl">
           Docker Storage Migration. <br className="hidden sm:inline" />

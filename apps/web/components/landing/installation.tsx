@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   IconCopy,
   IconCheck,
@@ -15,9 +15,10 @@ import {
 } from "@tabler/icons-react";
 
 type InstallTab = "script" | "package" | "binary";
+
 type PackageManager = "npm" | "yarn" | "pnpm" | "bun";
 
-interface BinaryRelease {
+export interface BinaryRelease {
   platform: string;
   arch: string;
   filename: string;
@@ -26,87 +27,16 @@ interface BinaryRelease {
   downloadUrl: string;
 }
 
-export default function InstallationSection() {
+export interface InstallationProps {
+  binaryReleases?: BinaryRelease[];
+}
+
+export default function InstallationSection({
+  binaryReleases = [],
+}: InstallationProps) {
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<InstallTab>("package");
   const [activePkg, setActivePkg] = useState<PackageManager>("npm");
-  const [binaryReleases, setBinaryReleases] = useState<BinaryRelease[]>([]);
-
-  useEffect(() => {
-    let isMounted = true;
-    async function fetchReleases() {
-      try {
-        const res = await fetch(
-          "https://api.github.com/repos/itskdhere/dsmt/releases/latest"
-        );
-        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-        const data = await res.json();
-
-        if (isMounted && data && Array.isArray(data.assets)) {
-          const mapped: BinaryRelease[] = data.assets
-            .map((asset: any): BinaryRelease => {
-              const name = asset.name || "";
-              let platform = "Unknown";
-              let arch = "Unknown";
-
-              if (name.includes("windows")) {
-                platform = "Windows";
-              } else if (name.includes("macos") || name.includes("darwin")) {
-                if (name.includes("arm64")) {
-                  platform = "macOS (Apple Silicon)";
-                } else {
-                  platform = "macOS (Intel)";
-                }
-              } else if (name.includes("linux")) {
-                platform = "Linux";
-              }
-
-              if (name.includes("arm64")) {
-                arch = "ARM64";
-              } else if (name.includes("x64") || name.includes("amd64")) {
-                arch = "x64";
-              }
-
-              const sizeInMB = (asset.size / (1024 * 1024)).toFixed(1) + " MB";
-              const sha256 = asset.digest
-                ? asset.digest.replace("sha256:", "")
-                : "";
-
-              return {
-                platform,
-                arch,
-                filename: name,
-                size: sizeInMB,
-                sha256,
-                downloadUrl: asset.browser_download_url || "",
-              };
-            })
-            .filter((item: BinaryRelease) => item.platform !== "Unknown");
-
-          const getOrderIndex = (item: BinaryRelease) => {
-            if (item.platform === "Windows") return 0;
-            if (item.platform === "macOS (Apple Silicon)") return 1;
-            if (item.platform === "macOS (Intel)") return 2;
-            if (item.platform === "Linux" && item.arch === "x64") return 3;
-            if (item.platform === "Linux" && item.arch === "Arm64") return 4;
-            return 5;
-          };
-
-          mapped.sort((a, b) => getOrderIndex(a) - getOrderIndex(b));
-
-          if (mapped.length > 0) {
-            setBinaryReleases(mapped);
-          }
-        }
-      } catch (err) {
-        console.error("Failed to fetch latest releases from GitHub:", err);
-      }
-    }
-    fetchReleases();
-    return () => {
-      isMounted = false;
-    };
-  }, []);
 
   const pkgLabels = {
     npm: "NPM",
