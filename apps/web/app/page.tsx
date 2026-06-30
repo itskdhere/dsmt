@@ -3,7 +3,7 @@ import Hero from "@/components/landing/hero";
 import Installation, { BinaryRelease } from "@/components/landing/installation";
 import Footer from "@/components/footer";
 
-export const revalidate = 5 * 60; // 5 minutes
+export const revalidate = 300; // 5 minutes
 
 interface LatestReleaseData {
   binaryReleases: BinaryRelease[];
