@@ -44,17 +44,17 @@ export default function HeroSection({ latestVersion }: HeroProps) {
           dependencies.
         </p>
 
-        <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+        <div className="mx-auto flex w-full max-w-xs flex-col items-center justify-center gap-4 sm:max-w-none sm:flex-row">
           <a
             href="#installation"
-            className="group flex transform items-center justify-center gap-2 rounded-full bg-primary-accent px-8 py-3.5 font-sans text-base font-bold text-canvas shadow-[0_0_20px_rgba(14,165,233,0.25)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary-accent/90 hover:shadow-[0_0_30px_rgba(14,165,233,0.45)]"
+            className="group flex w-full transform items-center justify-center gap-2 rounded-full bg-primary-accent px-8 py-3.5 font-sans text-base font-bold text-canvas shadow-[0_0_20px_rgba(14,165,233,0.25)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary-accent/90 hover:shadow-[0_0_30px_rgba(14,165,233,0.45)] sm:w-auto"
           >
             <IconDownload size={18} />
             <span>Install CLI</span>
           </a>
           <a
             href="#docs"
-            className="flex transform items-center justify-center gap-2 rounded-full border border-hairline bg-surface-1 px-8 py-3.5 font-sans text-base font-bold text-text-primary transition-all duration-300 hover:-translate-y-0.5 hover:border-primary-accent/30 hover:bg-surface-2 hover:text-text-primary"
+            className="flex w-full transform items-center justify-center gap-2 rounded-full border border-hairline bg-surface-1 px-8 py-3.5 font-sans text-base font-bold text-text-primary transition-all duration-300 hover:-translate-y-0.5 hover:border-primary-accent/30 hover:bg-surface-2 hover:text-text-primary sm:w-auto"
           >
             <IconBook size={18} />
             <span>View Docs</span>

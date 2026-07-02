@@ -159,40 +159,49 @@ export default function InstallSection({ binaryReleases = [] }: InstallProps) {
           </p>
         </div>
 
-        <div className="mx-auto max-w-5xl overflow-hidden rounded-2xl border border-hairline bg-surface-1 p-6 shadow-2xl sm:p-8">
-          <div className="mx-auto mb-8 flex max-w-xl justify-center gap-1.5 rounded-full border border-hairline bg-canvas/80 p-1">
+        <div className="mx-auto max-w-5xl overflow-hidden rounded-2xl border border-hairline bg-surface-1 p-4 shadow-2xl sm:p-8">
+          <div className="mx-auto mb-8 flex max-w-xl justify-center gap-1 rounded-full border border-hairline bg-canvas/80 p-1 sm:gap-1.5">
             <button
               onClick={() => setActiveTab("script")}
-              className={`flex flex-1 items-center justify-center gap-2 rounded-full py-2 font-sans text-xs font-bold transition-all sm:text-sm ${
+              className={`flex flex-1 items-center justify-center gap-1 rounded-full py-2 font-sans text-xs font-bold transition-all sm:gap-2 sm:text-sm ${
                 activeTab === "script"
                   ? "bg-primary-accent text-canvas shadow-lg"
                   : "text-text-muted hover:text-text-primary"
               }`}
             >
-              <IconTerminal size={16} />
-              <span>Quick Install</span>
+              <IconTerminal size={14} className="shrink-0 sm:h-4 sm:w-4" />
+              <span>
+                <span className="sm:hidden">Quick</span>
+                <span className="hidden sm:inline">Quick Install</span>
+              </span>
             </button>
             <button
               onClick={() => setActiveTab("package")}
-              className={`flex flex-1 items-center justify-center gap-2 rounded-full py-2 font-sans text-xs font-bold transition-all sm:text-sm ${
+              className={`flex flex-1 items-center justify-center gap-1 rounded-full py-2 font-sans text-xs font-bold transition-all sm:gap-2 sm:text-sm ${
                 activeTab === "package"
                   ? "bg-primary-accent text-canvas shadow-lg"
                   : "text-text-muted hover:text-text-primary"
               }`}
             >
-              <IconPackage size={16} />
-              <span>Package Managers</span>
+              <IconPackage size={14} className="shrink-0 sm:h-4 sm:w-4" />
+              <span>
+                <span className="sm:hidden">Packages</span>
+                <span className="hidden sm:inline">Package Managers</span>
+              </span>
             </button>
             <button
               onClick={() => setActiveTab("binary")}
-              className={`flex flex-1 items-center justify-center gap-2 rounded-full py-2 font-sans text-xs font-bold transition-all sm:text-sm ${
+              className={`flex flex-1 items-center justify-center gap-1 rounded-full py-2 font-sans text-xs font-bold transition-all sm:gap-2 sm:text-sm ${
                 activeTab === "binary"
                   ? "bg-primary-accent text-canvas shadow-lg"
                   : "text-text-muted hover:text-text-primary"
               }`}
             >
-              <IconDownload size={16} />
-              <span>Direct Binaries</span>
+              <IconDownload size={14} className="shrink-0 sm:h-4 sm:w-4" />
+              <span>
+                <span className="sm:hidden">Binaries</span>
+                <span className="hidden sm:inline">Direct Binaries</span>
+              </span>
             </button>
           </div>
 
@@ -203,14 +212,16 @@ export default function InstallSection({ binaryReleases = [] }: InstallProps) {
                   <div className="mb-2 flex items-center justify-between px-1 font-mono text-xs text-text-muted">
                     <span>Mac / Linux (cURL & Bash)</span>
                   </div>
-                  <div className="relative flex items-center justify-between overflow-x-auto rounded-xl border border-hairline bg-[#040814] p-4.5 font-mono text-sm">
-                    <code className="text-text-primary">
-                      curl -fsSL{" "}
-                      <span className="text-primary-accent">
-                        https://dsmt.itskdhere.com/install.sh
-                      </span>{" "}
-                      | sh
-                    </code>
+                  <div className="relative flex items-center justify-between rounded-xl border border-hairline bg-[#040814] p-3.5 font-mono text-sm sm:p-4.5">
+                    <div className="scrollbar-none flex-1 overflow-x-auto pr-4 [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                      <code className="whitespace-nowrap text-text-primary">
+                        curl -fsSL{" "}
+                        <span className="text-primary-accent">
+                          https://dsmt.itskdhere.com/install.sh
+                        </span>{" "}
+                        | sh
+                      </code>
+                    </div>
                     <button
                       onClick={() =>
                         triggerCopy(
@@ -218,12 +229,15 @@ export default function InstallSection({ binaryReleases = [] }: InstallProps) {
                           "bash"
                         )
                       }
-                      className="ml-4 shrink-0 rounded border border-hairline bg-surface-1 p-2 text-text-muted transition-all hover:border-primary-accent/30 hover:text-text-primary"
+                      className="shrink-0 rounded border border-hairline bg-surface-1 p-2 text-text-muted transition-all hover:border-primary-accent/30 hover:text-text-primary"
                     >
                       {copiedId === "bash" ? (
-                        <IconCheck size={16} className="text-glow-accent" />
+                        <IconCheck
+                          size={14}
+                          className="text-glow-accent sm:h-4 sm:w-4"
+                        />
                       ) : (
-                        <IconCopy size={16} />
+                        <IconCopy size={14} className="sm:h-4 sm:w-4" />
                       )}
                     </button>
                   </div>
@@ -233,14 +247,16 @@ export default function InstallSection({ binaryReleases = [] }: InstallProps) {
                   <div className="mb-2 flex items-center justify-between px-1 font-mono text-xs text-text-muted">
                     <span>Windows (PowerShell)</span>
                   </div>
-                  <div className="relative flex items-center justify-between overflow-x-auto rounded-xl border border-hairline bg-[#040814] p-4.5 font-mono text-sm">
-                    <code className="text-text-primary">
-                      irm{" "}
-                      <span className="text-primary-accent">
-                        https://dsmt.itskdhere.com/install.ps1
-                      </span>{" "}
-                      | iex
-                    </code>
+                  <div className="relative flex items-center justify-between rounded-xl border border-hairline bg-[#040814] p-3.5 font-mono text-sm sm:p-4.5">
+                    <div className="scrollbar-none flex-1 overflow-x-auto pr-4 [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                      <code className="whitespace-nowrap text-text-primary">
+                        irm{" "}
+                        <span className="text-primary-accent">
+                          https://dsmt.itskdhere.com/install.ps1
+                        </span>{" "}
+                        | iex
+                      </code>
+                    </div>
                     <button
                       onClick={() =>
                         triggerCopy(
@@ -248,12 +264,15 @@ export default function InstallSection({ binaryReleases = [] }: InstallProps) {
                           "powershell"
                         )
                       }
-                      className="ml-4 shrink-0 rounded border border-hairline bg-surface-1 p-2 text-text-muted transition-all hover:border-primary-accent/30 hover:text-text-primary"
+                      className="shrink-0 rounded border border-hairline bg-surface-1 p-2 text-text-muted transition-all hover:border-primary-accent/30 hover:text-text-primary"
                     >
                       {copiedId === "powershell" ? (
-                        <IconCheck size={16} className="text-glow-accent" />
+                        <IconCheck
+                          size={14}
+                          className="text-glow-accent sm:h-4 sm:w-4"
+                        />
                       ) : (
-                        <IconCopy size={16} />
+                        <IconCopy size={14} className="sm:h-4 sm:w-4" />
                       )}
                     </button>
                   </div>
@@ -273,13 +292,15 @@ export default function InstallSection({ binaryReleases = [] }: InstallProps) {
                   <button
                     key={pkg}
                     onClick={() => setActivePkg(pkg)}
-                    className={`flex flex-1 items-center justify-center gap-1.5 rounded-full py-1.5 font-mono text-xs font-bold transition-all ${
+                    className={`flex flex-1 items-center justify-center gap-1 rounded-full py-1.5 font-mono text-xs font-bold transition-all sm:gap-1.5 ${
                       activePkg === pkg
                         ? "bg-primary-accent text-canvas shadow-md"
                         : "text-text-muted hover:text-text-primary"
                     }`}
                   >
-                    {pkgIcons[pkg]}
+                    <span className="hidden shrink-0 sm:inline-flex">
+                      {pkgIcons[pkg]}
+                    </span>
                     <span>{pkgLabels[pkg]}</span>
                   </button>
                 ))}
@@ -290,10 +311,12 @@ export default function InstallSection({ binaryReleases = [] }: InstallProps) {
                   <div className="mb-2 flex items-center justify-between px-1 font-mono text-xs text-text-muted">
                     <span>Global Install ({activePkg})</span>
                   </div>
-                  <div className="relative flex items-center justify-between overflow-x-auto rounded-xl border border-hairline bg-[#040814] p-4.5 font-mono text-sm">
-                    <code className="text-text-primary">
-                      {pkgConfig[activePkg].install.html}
-                    </code>
+                  <div className="relative flex items-center justify-between rounded-xl border border-hairline bg-[#040814] p-3.5 font-mono text-sm sm:p-4.5">
+                    <div className="scrollbar-none flex-1 overflow-x-auto pr-4 [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                      <code className="whitespace-nowrap text-text-primary">
+                        {pkgConfig[activePkg].install.html}
+                      </code>
+                    </div>
                     <button
                       onClick={() =>
                         triggerCopy(
@@ -301,12 +324,15 @@ export default function InstallSection({ binaryReleases = [] }: InstallProps) {
                           `${activePkg}-install`
                         )
                       }
-                      className="ml-4 shrink-0 rounded border border-hairline bg-surface-1 p-2 text-text-muted transition-all hover:border-primary-accent/30 hover:text-text-primary"
+                      className="shrink-0 rounded border border-hairline bg-surface-1 p-2 text-text-muted transition-all hover:border-primary-accent/30 hover:text-text-primary"
                     >
                       {copiedId === `${activePkg}-install` ? (
-                        <IconCheck size={16} className="text-glow-accent" />
+                        <IconCheck
+                          size={14}
+                          className="text-glow-accent sm:h-4 sm:w-4"
+                        />
                       ) : (
-                        <IconCopy size={16} />
+                        <IconCopy size={14} className="sm:h-4 sm:w-4" />
                       )}
                     </button>
                   </div>
@@ -316,10 +342,12 @@ export default function InstallSection({ binaryReleases = [] }: InstallProps) {
                   <div className="mb-2 flex items-center justify-between px-1 font-mono text-xs text-text-muted">
                     <span>Exec ({activePkg})</span>
                   </div>
-                  <div className="relative flex items-center justify-between overflow-x-auto rounded-xl border border-hairline bg-[#040814] p-4.5 font-mono text-sm">
-                    <code className="text-text-primary">
-                      {pkgConfig[activePkg].exec.html}
-                    </code>
+                  <div className="relative flex items-center justify-between rounded-xl border border-hairline bg-[#040814] p-3.5 font-mono text-sm sm:p-4.5">
+                    <div className="scrollbar-none flex-1 overflow-x-auto pr-4 [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                      <code className="whitespace-nowrap text-text-primary">
+                        {pkgConfig[activePkg].exec.html}
+                      </code>
+                    </div>
                     <button
                       onClick={() =>
                         triggerCopy(
@@ -327,12 +355,15 @@ export default function InstallSection({ binaryReleases = [] }: InstallProps) {
                           `${activePkg}-exec`
                         )
                       }
-                      className="ml-4 shrink-0 rounded border border-hairline bg-surface-1 p-2 text-text-muted transition-all hover:border-primary-accent/30 hover:text-text-primary"
+                      className="shrink-0 rounded border border-hairline bg-surface-1 p-2 text-text-muted transition-all hover:border-primary-accent/30 hover:text-text-primary"
                     >
                       {copiedId === `${activePkg}-exec` ? (
-                        <IconCheck size={16} className="text-glow-accent" />
+                        <IconCheck
+                          size={14}
+                          className="text-glow-accent sm:h-4 sm:w-4"
+                        />
                       ) : (
-                        <IconCopy size={16} />
+                        <IconCopy size={14} className="sm:h-4 sm:w-4" />
                       )}
                     </button>
                   </div>

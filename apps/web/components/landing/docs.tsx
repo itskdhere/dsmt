@@ -236,11 +236,13 @@ export default function DocsSection() {
                 <span className="font-sans text-xs font-bold tracking-wider text-text-muted uppercase">
                   Usage Syntax
                 </span>
-                <div className="flex items-center justify-between overflow-x-auto rounded-xl border border-hairline bg-[#040814] p-4 font-mono text-sm">
-                  <code className="text-text-primary">
-                    <span className="text-glow-accent">dsmt</span>{" "}
-                    {commands[activeTab].syntax.replace("dsmt ", "")}
-                  </code>
+                <div className="flex items-center justify-between rounded-xl border border-hairline bg-[#040814] p-3 font-mono text-sm sm:p-4">
+                  <div className="scrollbar-none flex-1 overflow-x-auto pr-4 [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                    <code className="whitespace-nowrap text-text-primary">
+                      <span className="text-glow-accent">dsmt</span>{" "}
+                      {commands[activeTab].syntax.replace("dsmt ", "")}
+                    </code>
+                  </div>
                   <button
                     onClick={() =>
                       triggerCopy(
@@ -248,7 +250,7 @@ export default function DocsSection() {
                         `${activeTab}-syntax`
                       )
                     }
-                    className="ml-4 shrink-0 rounded border border-hairline bg-surface-1 p-2 text-text-muted transition-all hover:border-primary-accent/30 hover:text-text-primary"
+                    className="shrink-0 rounded border border-hairline bg-surface-1 p-2 text-text-muted transition-all hover:border-primary-accent/30 hover:text-text-primary"
                   >
                     {copiedId === `${activeTab}-syntax` ? (
                       <IconCheck size={15} className="text-glow-accent" />
