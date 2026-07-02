@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   IconTerminal,
   IconSettings,
@@ -17,6 +17,248 @@ interface LogLine {
   delay: number;
   valueHighlight?: string;
 }
+
+const getBasename = (filePath: string): string => {
+  const parts = filePath.split(/[/\\]/);
+  return parts[parts.length - 1] || filePath;
+};
+
+const getLogsSequence = (tab: Tab, vol: string): LogLine[] => {
+  const isBindMount = vol.includes("/") || vol.includes("\\");
+  const baseName = getBasename(vol);
+
+  if (tab === "export") {
+    if (isBindMount) {
+      return [
+        {
+          text: (
+            <span className="text-primary-accent">
+              Auto-detected bind mount path: {vol}
+            </span>
+          ),
+          type: "info",
+          delay: 500,
+          valueHighlight: "auto-detect",
+        },
+        {
+          text: "Preparing to export Docker bind mount...",
+          type: "spinner",
+          delay: 600,
+          valueHighlight: "socket",
+        },
+        {
+          text: (
+            <span>
+              Exporting bind mount from{" "}
+              <span className="text-primary-accent">{vol}</span> to{" "}
+              <span className="text-glow-accent">/Users/demo/dsmt/backups</span>
+            </span>
+          ),
+          type: "spinner",
+          delay: 800,
+          valueHighlight: "zero-dep",
+        },
+        {
+          text: (
+            <span>
+              Exporting bind mount from{" "}
+              <span className="text-primary-accent">{vol}</span> to{" "}
+              <span className="text-glow-accent">/Users/demo/dsmt/backups</span>
+            </span>
+          ),
+          type: "spinner",
+          delay: 1000,
+          valueHighlight: "streaming",
+        },
+        {
+          text: (
+            <span>
+              <span className="text-glow-accent">✔</span> Successfully exported
+              bind mount to{" "}
+              <span className="text-glow-accent">/Users/demo/dsmt/backups</span>
+            </span>
+          ),
+          type: "success",
+          delay: 500,
+          valueHighlight: "cleanup",
+        },
+      ];
+    } else {
+      return [
+        {
+          text: (
+            <span className="text-primary-accent">
+              Auto-detected volume name: {vol}
+            </span>
+          ),
+          type: "info",
+          delay: 500,
+          valueHighlight: "auto-detect",
+        },
+        {
+          text: "Preparing to export Docker volume...",
+          type: "spinner",
+          delay: 600,
+          valueHighlight: "socket",
+        },
+        {
+          text: (
+            <span>
+              Exporting volume{" "}
+              <span className="text-primary-accent">{vol}</span> to{" "}
+              <span className="text-glow-accent">/Users/demo/dsmt/backups</span>
+            </span>
+          ),
+          type: "spinner",
+          delay: 800,
+          valueHighlight: "zero-dep",
+        },
+        {
+          text: (
+            <span>
+              Exporting volume{" "}
+              <span className="text-primary-accent">{vol}</span> to{" "}
+              <span className="text-glow-accent">/Users/demo/dsmt/backups</span>
+            </span>
+          ),
+          type: "spinner",
+          delay: 1000,
+          valueHighlight: "streaming",
+        },
+        {
+          text: (
+            <span>
+              <span className="text-glow-accent">✔</span> Successfully exported
+              volume to{" "}
+              <span className="text-glow-accent">/Users/demo/dsmt/backups</span>
+            </span>
+          ),
+          type: "success",
+          delay: 500,
+          valueHighlight: "cleanup",
+        },
+      ];
+    }
+  } else {
+    if (isBindMount) {
+      return [
+        {
+          text: (
+            <span className="text-primary-accent">
+              Auto-detected bind mount path: {vol}
+            </span>
+          ),
+          type: "info",
+          delay: 500,
+          valueHighlight: "auto-detect",
+        },
+        {
+          text: "Preparing to import to Docker bind mount...",
+          type: "spinner",
+          delay: 600,
+          valueHighlight: "socket",
+        },
+        {
+          text: (
+            <span>
+              Importing from{" "}
+              <span className="text-primary-accent">
+                /Users/demo/dsmt/backups/{baseName}.tar.gz
+              </span>{" "}
+              to bind mount <span className="text-glow-accent">{vol}</span>
+            </span>
+          ),
+          type: "spinner",
+          delay: 800,
+          valueHighlight: "zero-dep",
+        },
+        {
+          text: (
+            <span>
+              Importing from{" "}
+              <span className="text-primary-accent">
+                /Users/demo/dsmt/backups/{baseName}.tar.gz
+              </span>{" "}
+              to bind mount <span className="text-glow-accent">{vol}</span>
+            </span>
+          ),
+          type: "spinner",
+          delay: 1000,
+          valueHighlight: "streaming",
+        },
+        {
+          text: (
+            <span>
+              <span className="text-glow-accent">✔</span> Successfully imported
+              to bind mount at <span className="text-glow-accent">{vol}</span>
+            </span>
+          ),
+          type: "success",
+          delay: 500,
+          valueHighlight: "cleanup",
+        },
+      ];
+    } else {
+      return [
+        {
+          text: (
+            <span className="text-primary-accent">
+              Auto-detected volume name: {vol}
+            </span>
+          ),
+          type: "info",
+          delay: 500,
+          valueHighlight: "auto-detect",
+        },
+        {
+          text: "Preparing to import to Docker volume...",
+          type: "spinner",
+          delay: 600,
+          valueHighlight: "socket",
+        },
+        {
+          text: (
+            <span>
+              Importing from{" "}
+              <span className="text-primary-accent">
+                /Users/demo/dsmt/backups/{vol}.tar.gz
+              </span>{" "}
+              to volume <span className="text-glow-accent">{vol}</span>
+            </span>
+          ),
+          type: "spinner",
+          delay: 800,
+          valueHighlight: "zero-dep",
+        },
+        {
+          text: (
+            <span>
+              Importing from{" "}
+              <span className="text-primary-accent">
+                /Users/demo/dsmt/backups/{vol}.tar.gz
+              </span>{" "}
+              to volume <span className="text-glow-accent">{vol}</span>
+            </span>
+          ),
+          type: "spinner",
+          delay: 1000,
+          valueHighlight: "streaming",
+        },
+        {
+          text: (
+            <span>
+              <span className="text-glow-accent">✔</span> Successfully imported
+              to volume <span className="text-glow-accent">{vol}</span>
+            </span>
+          ),
+          type: "success",
+          delay: 500,
+          valueHighlight: "cleanup",
+        },
+      ];
+    }
+  }
+};
 
 export default function DemoSection() {
   const [activeTab, setActiveTab] = useState<Tab>("export");
@@ -38,20 +280,28 @@ export default function DemoSection() {
   const animationRef = useRef<NodeJS.Timeout | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const volumeNameRef = useRef(volumeName);
   useEffect(() => {
-    let interval: NodeJS.Timeout | null = null;
-    if (activeSpinnerLine) {
-      const chars = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"];
-      let i = 0;
-      interval = setInterval(() => {
-        setSpinnerChar(chars[i] ?? "⠋");
-        i = (i + 1) % chars.length;
-      }, 80);
-    } else {
-      setSpinnerChar("⠋");
+    volumeNameRef.current = volumeName;
+  }, [volumeName]);
+
+  useEffect(() => {
+    if (!activeSpinnerLine) {
+      const timeout = setTimeout(() => {
+        setSpinnerChar("⠋");
+      }, 0);
+      return () => clearTimeout(timeout);
     }
+
+    const chars = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"];
+    let i = 0;
+    const interval = setInterval(() => {
+      setSpinnerChar(chars[i] ?? "⠋");
+      i = (i + 1) % chars.length;
+    }, 80);
+
     return () => {
-      if (interval) clearInterval(interval);
+      clearInterval(interval);
     };
   }, [activeSpinnerLine]);
 
@@ -73,263 +323,7 @@ export default function DemoSection() {
     return () => observer.disconnect();
   }, []);
 
-  const getBasename = (filePath: string): string => {
-    const parts = filePath.split(/[/\\]/);
-    return parts[parts.length - 1] || filePath;
-  };
-
-  const getLogsSequence = (tab: Tab, vol: string): LogLine[] => {
-    const isBindMount = vol.includes("/") || vol.includes("\\");
-    const baseName = getBasename(vol);
-
-    if (tab === "export") {
-      if (isBindMount) {
-        return [
-          {
-            text: (
-              <span className="text-primary-accent">
-                Auto-detected bind mount path: {vol}
-              </span>
-            ),
-            type: "info",
-            delay: 500,
-            valueHighlight: "auto-detect",
-          },
-          {
-            text: "Preparing to export Docker bind mount...",
-            type: "spinner",
-            delay: 600,
-            valueHighlight: "socket",
-          },
-          {
-            text: (
-              <span>
-                Exporting bind mount from{" "}
-                <span className="text-primary-accent">{vol}</span> to{" "}
-                <span className="text-glow-accent">
-                  /Users/demo/dsmt/backups
-                </span>
-              </span>
-            ),
-            type: "spinner",
-            delay: 800,
-            valueHighlight: "zero-dep",
-          },
-          {
-            text: (
-              <span>
-                Exporting bind mount from{" "}
-                <span className="text-primary-accent">{vol}</span> to{" "}
-                <span className="text-glow-accent">
-                  /Users/demo/dsmt/backups
-                </span>
-              </span>
-            ),
-            type: "spinner",
-            delay: 1000,
-            valueHighlight: "streaming",
-          },
-          {
-            text: (
-              <span>
-                <span className="text-glow-accent">✔</span> Successfully
-                exported bind mount to{" "}
-                <span className="text-glow-accent">
-                  /Users/demo/dsmt/backups
-                </span>
-              </span>
-            ),
-            type: "success",
-            delay: 500,
-            valueHighlight: "cleanup",
-          },
-        ];
-      } else {
-        return [
-          {
-            text: (
-              <span className="text-primary-accent">
-                Auto-detected volume name: {vol}
-              </span>
-            ),
-            type: "info",
-            delay: 500,
-            valueHighlight: "auto-detect",
-          },
-          {
-            text: "Preparing to export Docker volume...",
-            type: "spinner",
-            delay: 600,
-            valueHighlight: "socket",
-          },
-          {
-            text: (
-              <span>
-                Exporting volume{" "}
-                <span className="text-primary-accent">{vol}</span> to{" "}
-                <span className="text-glow-accent">
-                  /Users/demo/dsmt/backups
-                </span>
-              </span>
-            ),
-            type: "spinner",
-            delay: 800,
-            valueHighlight: "zero-dep",
-          },
-          {
-            text: (
-              <span>
-                Exporting volume{" "}
-                <span className="text-primary-accent">{vol}</span> to{" "}
-                <span className="text-glow-accent">
-                  /Users/demo/dsmt/backups
-                </span>
-              </span>
-            ),
-            type: "spinner",
-            delay: 1000,
-            valueHighlight: "streaming",
-          },
-          {
-            text: (
-              <span>
-                <span className="text-glow-accent">✔</span> Successfully
-                exported volume to{" "}
-                <span className="text-glow-accent">
-                  /Users/demo/dsmt/backups
-                </span>
-              </span>
-            ),
-            type: "success",
-            delay: 500,
-            valueHighlight: "cleanup",
-          },
-        ];
-      }
-    } else {
-      if (isBindMount) {
-        return [
-          {
-            text: (
-              <span className="text-primary-accent">
-                Auto-detected bind mount path: {vol}
-              </span>
-            ),
-            type: "info",
-            delay: 500,
-            valueHighlight: "auto-detect",
-          },
-          {
-            text: "Preparing to import to Docker bind mount...",
-            type: "spinner",
-            delay: 600,
-            valueHighlight: "socket",
-          },
-          {
-            text: (
-              <span>
-                Importing from{" "}
-                <span className="text-primary-accent">
-                  /Users/demo/dsmt/backups/{baseName}.tar.gz
-                </span>{" "}
-                to bind mount <span className="text-glow-accent">{vol}</span>
-              </span>
-            ),
-            type: "spinner",
-            delay: 800,
-            valueHighlight: "zero-dep",
-          },
-          {
-            text: (
-              <span>
-                Importing from{" "}
-                <span className="text-primary-accent">
-                  /Users/demo/dsmt/backups/{baseName}.tar.gz
-                </span>{" "}
-                to bind mount <span className="text-glow-accent">{vol}</span>
-              </span>
-            ),
-            type: "spinner",
-            delay: 1000,
-            valueHighlight: "streaming",
-          },
-          {
-            text: (
-              <span>
-                <span className="text-glow-accent">✔</span> Successfully
-                imported to bind mount at{" "}
-                <span className="text-glow-accent">{vol}</span>
-              </span>
-            ),
-            type: "success",
-            delay: 500,
-            valueHighlight: "cleanup",
-          },
-        ];
-      } else {
-        return [
-          {
-            text: (
-              <span className="text-primary-accent">
-                Auto-detected volume name: {vol}
-              </span>
-            ),
-            type: "info",
-            delay: 500,
-            valueHighlight: "auto-detect",
-          },
-          {
-            text: "Preparing to import to Docker volume...",
-            type: "spinner",
-            delay: 600,
-            valueHighlight: "socket",
-          },
-          {
-            text: (
-              <span>
-                Importing from{" "}
-                <span className="text-primary-accent">
-                  /Users/demo/dsmt/backups/{vol}.tar.gz
-                </span>{" "}
-                to volume <span className="text-glow-accent">{vol}</span>
-              </span>
-            ),
-            type: "spinner",
-            delay: 800,
-            valueHighlight: "zero-dep",
-          },
-          {
-            text: (
-              <span>
-                Importing from{" "}
-                <span className="text-primary-accent">
-                  /Users/demo/dsmt/backups/{vol}.tar.gz
-                </span>{" "}
-                to volume <span className="text-glow-accent">{vol}</span>
-              </span>
-            ),
-            type: "spinner",
-            delay: 1000,
-            valueHighlight: "streaming",
-          },
-          {
-            text: (
-              <span>
-                <span className="text-glow-accent">✔</span> Successfully
-                imported to volume{" "}
-                <span className="text-glow-accent">{vol}</span>
-              </span>
-            ),
-            type: "success",
-            delay: 500,
-            valueHighlight: "cleanup",
-          },
-        ];
-      }
-    }
-  };
-
-  const startSimulation = (tab: Tab, vol: string) => {
+  const startSimulation = useCallback((tab: Tab, vol: string) => {
     if (animationRef.current) clearTimeout(animationRef.current);
 
     setIsAnimating(true);
@@ -389,23 +383,29 @@ export default function DemoSection() {
     };
 
     typeCommand();
-  };
+  }, []);
 
   useEffect(() => {
     if (hasIntersected) {
-      startSimulation(activeTab, volumeName);
+      const timer = setTimeout(() => {
+        startSimulation(activeTab, volumeNameRef.current);
+      }, 0);
+      return () => {
+        clearTimeout(timer);
+        if (animationRef.current) clearTimeout(animationRef.current);
+      };
     }
     return () => {
       if (animationRef.current) clearTimeout(animationRef.current);
     };
-  }, [activeTab, hasIntersected]);
+  }, [activeTab, hasIntersected, startSimulation]);
 
   const handleRun = () => {
     startSimulation(activeTab, volumeName);
   };
 
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value.replace(/[^a-zA-Z0-9-_\/\\.:]/g, "");
+    const val = e.target.value.replace(/[^a-zA-Z0-9_/\\.:-]/g, "");
     setVolumeName(val || "production-db");
   };
 

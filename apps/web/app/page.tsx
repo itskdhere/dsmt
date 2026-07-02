@@ -12,6 +12,13 @@ interface LatestReleaseData {
   latestVersion?: string;
 }
 
+interface GitHubAsset {
+  name: string;
+  size: number;
+  digest?: string;
+  browser_download_url?: string;
+}
+
 async function getLatestReleases(): Promise<LatestReleaseData> {
   let latestVersion: string | undefined;
   let binaryReleases: BinaryRelease[] = [];
@@ -31,7 +38,7 @@ async function getLatestReleases(): Promise<LatestReleaseData> {
       }
       if (Array.isArray(data.assets)) {
         const mapped: BinaryRelease[] = data.assets
-          .map((asset: any): BinaryRelease => {
+          .map((asset: GitHubAsset): BinaryRelease => {
             const name = asset.name || "";
             let platform = "Unknown";
             let arch = "Unknown";
