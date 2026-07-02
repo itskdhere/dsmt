@@ -130,6 +130,11 @@
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
+  }
+
   * {
     @apply border-border outline-ring/50;
   }

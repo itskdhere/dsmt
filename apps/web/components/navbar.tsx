@@ -31,15 +31,21 @@ export default function Navbar() {
   return (
     <header
       className={`fixed top-0 right-0 left-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "border-b border-hairline bg-canvas/85 py-3 backdrop-blur-md"
-          : "bg-transparent py-5"
+        mobileMenuOpen
+          ? "bg-canvas/95 py-3 backdrop-blur-lg"
+          : scrolled
+            ? "border-b border-hairline bg-canvas/85 py-3 backdrop-blur-md"
+            : "bg-transparent py-5"
       }`}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-12 items-center justify-between">
           <div className="flex items-center gap-3">
-            <a href="#" className="group flex items-center gap-2.5">
+            <a
+              href="#"
+              onClick={() => setMobileMenuOpen(false)}
+              className="group flex items-center gap-2.5"
+            >
               <Image src={logo} alt="DSMT" width={26} height={26} />
               <span className="font-sans text-xl font-bold tracking-tight text-text-primary">
                 DSMT
@@ -70,7 +76,7 @@ export default function Navbar() {
               <span>Repo</span>
             </a>
             {/* <a
-              href="#installation"
+              href="#install"
               className="flex h-9 items-center gap-1.5 rounded-md bg-primary-accent px-4 text-sm font-semibold text-canvas shadow-[0_0_15px_rgba(14,165,233,0.2)] transition-all hover:bg-primary-accent/90 hover:shadow-[0_0_20px_rgba(14,165,233,0.4)]"
             >
               <IconDownload size={15} />
@@ -97,6 +103,7 @@ export default function Navbar() {
               <a
                 key={link.name}
                 href={link.href}
+                onClick={() => setMobileMenuOpen(false)}
                 className="py-1 text-base font-medium text-text-muted transition-colors hover:text-text-primary"
               >
                 {link.name}
@@ -112,10 +119,10 @@ export default function Navbar() {
                 className="flex w-full items-center justify-center gap-2 rounded-md border border-hairline bg-surface-1 py-2.5 text-sm font-medium text-text-primary transition-all"
               >
                 <IconBrandGithub size={16} />
-                <span>Repo</span>
+                <span>Repository</span>
               </a>
               {/* <a
-                href="#installation"
+                href="#install"
                 onClick={() => setMobileMenuOpen(false)}
                 className="flex w-full items-center justify-center gap-1.5 rounded-md bg-primary-accent py-2.5 text-sm font-semibold text-canvas shadow-[0_0_15px_rgba(14,165,233,0.2)] transition-all"
               >
