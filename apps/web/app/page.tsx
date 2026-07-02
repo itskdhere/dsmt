@@ -1,6 +1,6 @@
 import Navbar from "@/components/navbar";
 import Hero from "@/components/landing/hero";
-import Installation, { BinaryRelease } from "@/components/landing/installation";
+import Install, { BinaryRelease } from "@/components/landing/install";
 import Demo from "@/components/landing/demo";
 import Docs from "@/components/landing/docs";
 import Footer from "@/components/footer";
@@ -95,7 +95,7 @@ export default async function LandingPage() {
       <main>
         <Hero latestVersion={latestVersion} />
         <Demo />
-        <Installation binaryReleases={binaryReleases} />
+        <Install binaryReleases={binaryReleases} />
         <Docs />
       </main>
       <Footer />

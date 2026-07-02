@@ -27,13 +27,11 @@ export interface BinaryRelease {
   downloadUrl: string;
 }
 
-export interface InstallationProps {
+export interface InstallProps {
   binaryReleases?: BinaryRelease[];
 }
 
-export default function InstallationSection({
-  binaryReleases = [],
-}: InstallationProps) {
+export default function InstallSection({ binaryReleases = [] }: InstallProps) {
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<InstallTab>("package");
   const [activePkg, setActivePkg] = useState<PackageManager>("npm");
@@ -143,7 +141,7 @@ export default function InstallationSection({
 
   return (
     <section
-      id="installation"
+      id="install"
       className="relative border-t border-hairline/60 bg-canvas py-20"
     >
       <div className="pointer-events-none absolute inset-0">
@@ -153,7 +151,7 @@ export default function InstallationSection({
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-10 text-center">
           <h2 className="mb-4 font-sans text-3xl font-bold tracking-tight text-text-primary sm:text-4xl">
-            Installation
+            Install DSMT
           </h2>
           <p className="mx-auto max-w-2xl font-sans text-base text-text-muted sm:text-lg">
             Get up and running in seconds. Install via package manager, run a
