@@ -9,6 +9,8 @@
   "scripts": {
     "dev": "tsc --watch --preserveWatchOutput",
     "build": "tsc",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
     "compile:linux-x64": "bun build --compile --minify --target=bun-linux-x64 ./src/cli.ts --outfile ./dist/bin/dsmt-linux-x64",
     "compile:linux-arm64": "bun build --compile --minify --target=bun-linux-arm64 ./src/cli.ts --outfile ./dist/bin/dsmt-linux-arm64",
     "compile:macos-x64": "bun build --compile --minify --target=bun-darwin-x64 ./src/cli.ts --outfile ./dist/bin/dsmt-macos-x64",
@@ -43,7 +45,9 @@
   },
   "devDependencies": {
     "@dsmt/tsconfig": "workspace:*",
+    "@dsmt/eslint-config": "workspace:*",
     "@types/node": "^22.14.1",
+    "eslint": "^9",
     "typescript": "^5.8.3"
   }
 }

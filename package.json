@@ -12,6 +12,9 @@
     "preinstall": "npx only-allow bun",
     "dev": "turbo dev",
     "build": "turbo run build",
+    "lint": "turbo lint",
+    "format": "turbo format",
+    "typecheck": "turbo typecheck",
     "link": "cd apps/cli && bun link",
     "unlink": "cd apps/cli && bun unlink"
   },

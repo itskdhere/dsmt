@@ -24,8 +24,10 @@
         "ora": "^8.2.0",
       },
       "devDependencies": {
+        "@dsmt/eslint-config": "workspace:*",
         "@dsmt/tsconfig": "workspace:*",
         "@types/node": "^22.14.1",
+        "eslint": "^9",
         "typescript": "^5.8.3",
       },
     },
