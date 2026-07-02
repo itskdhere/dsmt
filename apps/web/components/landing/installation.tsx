@@ -150,8 +150,8 @@ export default function InstallationSection({
         <div className="absolute bottom-10 left-1/4 h-100 w-100 rounded-full bg-secondary-accent/5 blur-[120px]" />
       </div>
 
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-12 text-center">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-10 text-center">
           <h2 className="mb-4 font-sans text-3xl font-bold tracking-tight text-text-primary sm:text-4xl">
             Installation
           </h2>
@@ -161,7 +161,7 @@ export default function InstallationSection({
           </p>
         </div>
 
-        <div className="overflow-hidden rounded-2xl border border-hairline bg-surface-1 p-6 shadow-2xl sm:p-8">
+        <div className="mx-auto max-w-5xl overflow-hidden rounded-2xl border border-hairline bg-surface-1 p-6 shadow-2xl sm:p-8">
           <div className="mx-auto mb-8 flex max-w-xl justify-center gap-1.5 rounded-full border border-hairline bg-canvas/80 p-1">
             <button
               onClick={() => setActiveTab("script")}

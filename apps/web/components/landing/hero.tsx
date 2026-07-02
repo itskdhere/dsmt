@@ -1,8 +1,4 @@
-import {
-  IconTerminal,
-  IconArrowRight,
-  IconBrandGithub,
-} from "@tabler/icons-react";
+import { IconDownload, IconBook } from "@tabler/icons-react";
 
 export interface HeroProps {
   latestVersion?: string;
@@ -53,21 +49,15 @@ export default function HeroSection({ latestVersion }: HeroProps) {
             href="#installation"
             className="group flex transform items-center justify-center gap-2 rounded-full bg-primary-accent px-8 py-3.5 font-sans text-base font-bold text-canvas shadow-[0_0_20px_rgba(14,165,233,0.25)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary-accent/90 hover:shadow-[0_0_30px_rgba(14,165,233,0.45)]"
           >
-            <IconTerminal size={18} />
+            <IconDownload size={18} />
             <span>Install CLI</span>
-            <IconArrowRight
-              size={16}
-              className="transition-transform group-hover:translate-x-1"
-            />
           </a>
           <a
-            href="https://github.com/itskdhere/dsmt"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#docs"
             className="flex transform items-center justify-center gap-2 rounded-full border border-hairline bg-surface-1 px-8 py-3.5 font-sans text-base font-bold text-text-primary transition-all duration-300 hover:-translate-y-0.5 hover:border-primary-accent/30 hover:bg-surface-2 hover:text-text-primary"
           >
-            <IconBrandGithub size={18} />
-            <span>View GitHub</span>
+            <IconBook size={18} />
+            <span>View Docs</span>
           </a>
         </div>
 

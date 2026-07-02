@@ -465,7 +465,7 @@ export default function DemoSection() {
       </div>
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-16 text-center">
+        <div className="mb-10 text-center">
           <h2 className="mb-4 font-sans text-3xl font-bold tracking-tight text-text-primary sm:text-4xl">
             See DSMT in Action
           </h2>
@@ -475,7 +475,7 @@ export default function DemoSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 items-stretch gap-8 lg:grid-cols-12">
+        <div className="mx-auto grid max-w-5xl grid-cols-1 items-stretch gap-8 lg:grid-cols-12">
           <div className="flex h-full w-full flex-col lg:col-span-7">
             <div className="mb-4 flex flex-wrap items-center gap-3 rounded-lg border border-hairline bg-surface-1/50 px-4 py-3 text-sm">
               <span className="font-sans font-medium text-text-muted">
@@ -497,7 +497,7 @@ export default function DemoSection() {
                 disabled={isAnimating}
                 className="rounded border border-hairline bg-surface-2 px-3 py-1 text-xs font-semibold text-text-primary transition-all hover:border-primary-accent/30 hover:text-primary-accent disabled:opacity-50"
               >
-                Run Command
+                Run
               </button>
             </div>
 
