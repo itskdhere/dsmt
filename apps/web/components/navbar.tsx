@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { IconDownload, IconMenu2, IconX } from "@tabler/icons-react";
+import { IconBrandGithub, IconMenu2, IconX } from "@tabler/icons-react";
 import logo from "@/assets/logo.svg";
 
 export default function Navbar() {
@@ -17,13 +17,14 @@ export default function Navbar() {
         setScrolled(false);
       }
     };
+    handleScroll();
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const navLinks = [
-    { name: "Features", href: "#features" },
-    { name: "How It Works", href: "#how-it-works" },
+    { name: "Demo", href: "#demo" },
+    { name: "Install", href: "#install" },
     { name: "Docs", href: "#docs" },
   ];
 
@@ -60,12 +61,21 @@ export default function Navbar() {
 
           <div className="hidden items-center gap-4 md:flex">
             <a
+              href="https://github.com/itskdhere/dsmt"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex h-9 items-center gap-2 rounded-md border border-hairline bg-surface-1/80 px-4 text-sm font-medium text-text-primary transition-all hover:bg-surface-2"
+            >
+              <IconBrandGithub size={15} />
+              <span>Repo</span>
+            </a>
+            {/* <a
               href="#installation"
               className="flex h-9 items-center gap-1.5 rounded-md bg-primary-accent px-4 text-sm font-semibold text-canvas shadow-[0_0_15px_rgba(14,165,233,0.2)] transition-all hover:bg-primary-accent/90 hover:shadow-[0_0_20px_rgba(14,165,233,0.4)]"
             >
               <IconDownload size={15} />
               <span>Install</span>
-            </a>
+            </a> */}
           </div>
 
           <div className="md:hidden">
@@ -87,7 +97,6 @@ export default function Navbar() {
               <a
                 key={link.name}
                 href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
                 className="py-1 text-base font-medium text-text-muted transition-colors hover:text-text-primary"
               >
                 {link.name}
@@ -95,26 +104,24 @@ export default function Navbar() {
             ))}
             <hr className="my-2 border-hairline" />
             <div className="flex flex-col gap-3 pt-1">
-              {/* <a
+              <a
                 href="https://github.com/itskdhere/dsmt"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => setMobileMenuOpen(false)}
                 className="flex w-full items-center justify-center gap-2 rounded-md border border-hairline bg-surface-1 py-2.5 text-sm font-medium text-text-primary transition-all"
               >
                 <IconBrandGithub size={16} />
-                <span>Star on GitHub</span>
-                <span className="rounded border border-hairline bg-canvas px-1.5 py-0.5 font-mono text-[11px] font-semibold text-glow-accent">
-                  star_count
-                </span>
-              </a> */}
-              <a
+                <span>Repo</span>
+              </a>
+              {/* <a
                 href="#installation"
                 onClick={() => setMobileMenuOpen(false)}
                 className="flex w-full items-center justify-center gap-1.5 rounded-md bg-primary-accent py-2.5 text-sm font-semibold text-canvas shadow-[0_0_15px_rgba(14,165,233,0.2)] transition-all"
               >
                 <IconDownload size={16} />
                 <span>Install</span>
-              </a>
+              </a> */}
             </div>
           </nav>
         </div>
