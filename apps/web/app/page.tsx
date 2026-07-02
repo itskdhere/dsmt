@@ -2,6 +2,7 @@ import Navbar from "@/components/navbar";
 import Hero from "@/components/landing/hero";
 import Installation, { BinaryRelease } from "@/components/landing/installation";
 import Demo from "@/components/landing/demo";
+import Docs from "@/components/landing/docs";
 import Footer from "@/components/footer";
 
 export const revalidate = 300; // 5 minutes
@@ -95,6 +96,7 @@ export default async function LandingPage() {
         <Hero latestVersion={latestVersion} />
         <Demo />
         <Installation binaryReleases={binaryReleases} />
+        <Docs />
       </main>
       <Footer />
     </div>
