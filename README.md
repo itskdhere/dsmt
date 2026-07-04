@@ -1,13 +1,34 @@
-# DSMT
+<h1 align="center">
+  <img src="apps/web/public/icon.png" alt="DSMT Logo" width="82">
+  <br>
+  <b>DSMT</b>
+</h1>
 
-[![NPM Version](https://img.shields.io/npm/v/dsmt.svg?label=version&logo=semver)](https://www.npmjs.com/package/dsmt)
-[![NPM Downloads](https://img.shields.io/npm/dm/dsmt.svg?logo=npm)](https://www.npmjs.com/package/dsmt)
-[![License](https://img.shields.io/github/license/itskdhere/dsmt.svg?logo=github)](https://github.com/itskdhere/dsmt/blob/main/LICENSE)
-[![Build Status](https://github.com/itskdhere/dsmt/actions/workflows/ci.yml/badge.svg)](https://github.com/itskdhere/dsmt/actions/workflows/ci.yml)
+<h3 align="center">
+  Docker Storage Migration Tool
+</h3>
 
-**Docker Storage Migration Tool (DSMT)** is a command-line utility for seamlessly exporting and importing Docker volumes and bind mounts.
+<p align="center">
+  A fast, dependency-free command-line utility for Import and Export Docker Volumes and Bind Mounts on Windows, Linux and macOS.
+</p>
 
-## Overview
+<br>
+
+<p align="center">
+  <a href="https://dsmt.itskdhere.com"><img src="https://img.shields.io/badge/Docs-dsmt.itskdhere.com-blue?logo=gitbook&logoColor=white" alt="Docs"></a>
+  <a href="https://www.npmjs.com/package/dsmt"><img src="https://img.shields.io/badge/NPM-dsmt-red?logo=npm" alt="NPM"></a>
+</p>
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/dsmt"><img src="https://img.shields.io/npm/v/dsmt.svg?logo=semver&label=Version" alt="NPM Version"></a>
+  <a href="https://www.npmjs.com/package/dsmt"><img src="https://img.shields.io/npm/dm/dsmt.svg?logo=npm&label=Downloads" alt="NPM Downloads"></a>
+  <a href="https://github.com/itskdhere/dsmt/actions/workflows/ci.yml"><img src="https://github.com/itskdhere/dsmt/actions/workflows/ci.yml/badge.svg" alt="CI Status"></a>
+  <a href="https://github.com/itskdhere/dsmt/actions/workflows/release.yml"><img src="https://github.com/itskdhere/dsmt/actions/workflows/release.yml/badge.svg" alt="Release Status"></a>
+</p>
+
+---
+
+## 🔍 Overview
 
 DSMT provides a simple way to:
 
@@ -16,11 +37,41 @@ DSMT provides a simple way to:
 
 This tool makes it easy to backup, restore, or migrate Docker storage across systems.
 
-## Installation
+---
 
-### Global Installation
+## ⚡ Features
 
-Choose your preferred package manager to install the CLI globally:
+- **Cross-Platform**: Pre-compiled standalone binaries for Windows, Linux and macOS (supporting both **x64** and **ARM64**).
+- **Flexible Installation**: Install via package managers (NPM, Yarn, PNPM, Bun), quick Bash / PowerShell scripts, or direct standalone binary downloads.
+- **Isolated Operations**: Runs compression and restoration inside temporary, isolated Docker containers to guarantee compatibility and system isolation.
+- **Auto-Detection**: Automatically determines whether path/name parameters refer to a Docker Volume or Host Bind Mount, with manual overrides.
+- **Native Engine Connection**: Auto-detects and integrates with the local Container Engine (Docker, Podman, Colima, Orbstack etc.) via Unix sockets or Windows Named Pipes.
+
+---
+
+## 🚀 Installation
+
+### 1. Quick Install Scripts (Recommended)
+
+Install the pre-compiled binary instantly and add it to your PATH using our quick install scripts:
+
+#### Windows (PowerShell)
+
+```powershell
+irm https://dsmt.itskdhere.com/install.ps1 | iex
+```
+
+#### Linux / macOS (cURL & Bash)
+
+```bash
+curl -fsSL https://dsmt.itskdhere.com/install.sh | sh
+```
+
+---
+
+### 2. Package Managers
+
+If you already have a Node.js or Bun environment, you can install the CLI globally:
 
 ```bash
 # npm
@@ -36,9 +87,7 @@ pnpm add -g dsmt
 bun add -g dsmt
 ```
 
-### Run Directly
-
-Or run directly without manual installation using:
+#### Or Run Directly (No Install)
 
 ```bash
 # npx (npm)
@@ -54,46 +103,54 @@ pnpm dlx dsmt <command> [args]
 yarn dlx dsmt <command> [args]
 ```
 
-## Usage
+---
 
-### Exporting Docker Storage
+### 3. Pre-compiled Standalone Binaries
 
-Export a Docker volume:
+Download standalone binaries directly from the [GitHub Releases](https://github.com/itskdhere/dsmt/releases) page. No runtimes required.
+
+- **Windows**: `dsmt-windows-x64.exe`, `dsmt-windows-arm64.exe`
+- **Linux**: `dsmt-linux-x64`, `dsmt-linux-arm64`
+- **macOS**: `dsmt-macos-x64`, `dsmt-macos-arm64`
+
+---
+
+## 📖 Usage & Commands
+
+### 📤 Exporting Docker Storage
+
+Exports a Docker Volume or local directory to a compressed `.tar.gz` archive.
 
 ```bash
+# Export a Docker Volume
 dsmt export volume_name /path/to/export/directory
+
+# Export a local directory (Bind Mount)
+dsmt export /path/to/local/directory /path/to/export/directory
 ```
 
-Export a bind mount:
+### 📥 Importing Docker Storage
+
+Imports files from a compressed `.tar.gz` archive back into a Docker Volume or local directory. If a destination Docker volume does not exist, DSMT will automatically create it.
 
 ```bash
-dsmt export /path/to/bind/mount /path/to/export/directory
-```
-
-### Importing Docker Storage
-
-Import to a Docker volume:
-
-```bash
+# Import into a Docker Volume
 dsmt import /path/to/tarball.tar.gz volume_name
+
+# Import into a local directory (Bind Mount)
+dsmt import /path/to/tarball.tar.gz /path/to/local/directory
 ```
 
-Import to a bind mount:
+### ⚙️ Command Options
 
-```bash
-dsmt import /path/to/tarball.tar.gz /path/to/bind/mount
-```
+Both `export` and `import` commands support the following overrides:
 
-## Options
+- `-v, --volume`: Force DSMT to treat the parameter as a Docker Volume (disables auto-detection).
+- `-b, --bind`: Force DSMT to treat the parameter as a Host Bind Mount (disables auto-detection).
 
-Both commands support the following options:
+---
 
-- `-v, --volume`: Explicitly specify source/destination as a Docker volume
-- `-b, --bind`: Explicitly specify source/destination as a bind mount
-
-The tool will automatically detect the source/destination type in most cases, but you can use these flags to be explicit.
-
-## Examples
+## 💡 Examples
 
 ```bash
 # Export a volume named 'mongodb_data' to the current directory
@@ -107,17 +164,60 @@ dsmt export /var/www/html /backups
 
 # Import a tarball to a bind mount
 dsmt import ./html.tar.gz /var/www/html
+
+# Force treating destination as bind mount (skips volume check)
+dsmt import -b ./backup.tar.gz ./restored_folder
 ```
 
-## Contribution
+---
 
-Please refer to the [CONTRIBUTING.md](CONTRIBUTING.md) file for guidelines on contributing to this project.
+## 🛠️ Development
 
-## Security
+This project is organized as a Turborepo monorepo:
 
-Please refer to the [SECURITY.md](SECURITY.md) file for security-related issues and reporting.
+- `apps/cli/`: The core DSMT CLI utility.
+- `apps/web/`: A Next.js landing page & interactive CLI documentation site.
+- `packages/ui/`: Shared UI components and styles.
+- `packages/eslint-config/` & `packages/tsconfig/`: Shared development configurations.
 
-## License
+### Development Setup
+
+First, make sure you have [Bun](https://bun.com) installed.
+
+```bash
+# Clone the repository
+git clone https://github.com/itskdhere/dsmt.git
+cd dsmt
+
+# Install all workspace dependencies
+bun install
+
+# Build workspace packages & CLI
+bun run build
+
+# Link the CLI globally for local testing
+bun run link
+
+# Start development dev servers/watchers
+bun run dev
+
+# Run linting across the monorepo
+bun run lint
+
+# Unlink the package when done
+bun run unlink
+```
+
+---
+
+## 🔭 Contribution & Security
+
+Please refer to:
+
+- [CONTRIBUTING.md](CONTRIBUTING.md) for local development workflows and guidelines.
+- [SECURITY.md](SECURITY.md) for reporting vulnerabilities.
+
+## 📄 License
 
 MIT © [itskdhere](https://github.com/itskdhere)
 
