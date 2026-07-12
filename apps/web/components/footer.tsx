@@ -1,4 +1,4 @@
-import { IconBrandGithub } from "@tabler/icons-react";
+import { IconBrandGithub, IconBrandNpm } from "@tabler/icons-react";
 
 export default function Footer() {
   return (
@@ -25,17 +25,31 @@ export default function Footer() {
           </a>
         </p>
 
-        <a
-          href="https://github.com/itskdhere/dsmt"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-1 flex items-center justify-center gap-0.5 text-text-muted"
-        >
-          <IconBrandGithub size={14} />
-          <p className="font-sans text-sm underline underline-offset-1">
-            itskdhere/dsmt
-          </p>
-        </a>
+        <div className="mt-1 flex items-center justify-center gap-1.5 text-text-muted">
+          <a
+            href="https://github.com/itskdhere/dsmt"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-0.5"
+          >
+            <IconBrandGithub size={14} />
+            <p className="font-sans text-sm underline underline-offset-1">
+              itskdhere/dsmt
+            </p>
+          </a>
+          <p>|</p>
+          <a
+            href="https://www.npmjs.com/package/dsmt"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-1"
+          >
+            <IconBrandNpm size={20} className="translate-y-px" />
+            <p className="font-sans text-sm underline underline-offset-1">
+              dsmt
+            </p>
+          </a>
+        </div>
       </div>
     </footer>
   );
