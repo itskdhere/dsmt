@@ -102,7 +102,10 @@ export default async function LandingPage() {
       <main>
         <Hero latestVersion={latestVersion} />
         <Demo />
-        <Install binaryReleases={binaryReleases} />
+        <Install
+          binaryReleases={binaryReleases}
+          latestVersion={latestVersion}
+        />
         <Docs />
       </main>
       <Footer />

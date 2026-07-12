@@ -29,11 +29,15 @@ export interface BinaryRelease {
 
 export interface InstallProps {
   binaryReleases?: BinaryRelease[];
+  latestVersion?: string;
 }
 
-export default function InstallSection({ binaryReleases = [] }: InstallProps) {
+export default function InstallSection({
+  binaryReleases = [],
+  latestVersion,
+}: InstallProps) {
   const [copiedId, setCopiedId] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<InstallTab>("package");
+  const [activeTab, setActiveTab] = useState<InstallTab>("script");
   const [activePkg, setActivePkg] = useState<PackageManager>("npm");
 
   const pkgLabels = {
@@ -409,6 +413,14 @@ export default function InstallSection({ binaryReleases = [] }: InstallProps) {
                             </span>
                             <span className="block text-[12px] text-text-muted">
                               Size: {rel.size}
+                              {latestVersion && (
+                                <>
+                                  <span className="mx-1.5 text-text-muted/40">
+                                    •
+                                  </span>
+                                  Version: {latestVersion}
+                                </>
+                              )}
                             </span>
                           </div>
                         </div>
