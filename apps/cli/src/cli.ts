@@ -1,17 +1,19 @@
-#! /usr/bin/env node
+#!/usr/bin/env node
 
+import { Command } from "commander";
 import exportCmd from "./cmd/export.js";
 import importCmd from "./cmd/import.js";
 import migrateCmd from "./cmd/migrate.js";
-import { Command } from "commander";
+import { checkForUpdates, performUpdateCheck } from "./lib/etc/update.js";
 import pkg from "../package.json" with { type: "json" };
 
+const VERSION = pkg.version;
 const program = new Command();
 
 program
   .name("dsmt")
   .description("Docker Storage Migration Tool")
-  .version(pkg.version);
+  .version(VERSION);
 
 program
   .command("export")
@@ -44,4 +46,15 @@ program
   )
   .action(async (src, dst, options) => await migrateCmd(src, dst, options));
 
-program.parse(process.argv);
+program
+  .command("_check-update", { hidden: true })
+  .description("Check for updates in the background")
+  .action(async () => {
+    await performUpdateCheck();
+  });
+
+if (!process.argv.includes("_check-update")) {
+  await checkForUpdates(VERSION);
+}
+
+await program.parseAsync(process.argv);
