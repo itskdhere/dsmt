@@ -4,13 +4,14 @@ import exportCmd from "./cmd/export.js";
 import importCmd from "./cmd/import.js";
 import migrateCmd from "./cmd/migrate.js";
 import { Command } from "commander";
+import pkg from "../package.json" with { type: "json" };
 
 const program = new Command();
 
 program
   .name("dsmt")
   .description("Docker Storage Migration Tool")
-  .version("0.3.3");
+  .version(pkg.version);
 
 program
   .command("export")
