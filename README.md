@@ -9,7 +9,7 @@
 </h3>
 
 <p align="center">
-  A fast, dependency-free command-line utility for Import and Export Docker Volumes and Bind Mounts on Windows, Linux and macOS.
+  A fast, dependency-free command-line utility to Import, Export and Migrate Docker Volumes and Bind Mounts on Windows, Linux and macOS.
 </p>
 
 <br>
@@ -34,6 +34,7 @@ DSMT provides a simple way to:
 
 - Export Docker volumes or bind mounts to compressed tarballs.
 - Import compressed tarballs into Docker volumes or bind mounts.
+- Migrate data directly from one Docker storage to another (without using intermediary tarballs).
 
 This tool makes it easy to backup, restore, or migrate Docker storage across systems.
 
@@ -141,12 +142,41 @@ dsmt import /path/to/tarball.tar.gz volume_name
 dsmt import /path/to/tarball.tar.gz /path/to/local/directory
 ```
 
+### 🔄 Direct Migration (No Tarballs)
+
+Migrates data directly from a source Docker Storage (volume or bind mount) to a destination Docker Storage (volume or bind mount) in a single command, without generating any intermediary tar archives.
+
+```bash
+# Migrate data from a volume to another volume
+dsmt migrate src_volume_name dst_volume_name
+
+# Migrate data from a volume to a bind mount
+dsmt migrate src_volume_name /path/to/destination
+
+# Migrate data from a bind mount to a volume
+dsmt migrate /path/to/source dst_volume_name
+
+# Migrate data from a bind mount to another bind mount
+dsmt migrate /path/to/source /path/to/destination
+```
+
 ### ⚙️ Command Options
+
+#### `export` and `import` Options
 
 Both `export` and `import` commands support the following overrides:
 
 - `-v, --volume`: Force DSMT to treat the parameter as a Docker Volume (disables auto-detection).
 - `-b, --bind`: Force DSMT to treat the parameter as a Host Bind Mount (disables auto-detection).
+
+#### `migrate` Options
+
+The `migrate` command supports the following overrides to specify source and destination types explicitly:
+
+- `--sv, --src-volume`: Force treating the source as a Docker Volume (disables auto-detection).
+- `--sb, --src-bind`: Force treating the source as a Host Bind Mount (disables auto-detection).
+- `--dv, --dst-volume`: Force treating the destination as a Docker Volume (disables auto-detection).
+- `--db, --dst-bind`: Force treating the destination as a Host Bind Mount (disables auto-detection).
 
 ---
 
@@ -167,6 +197,15 @@ dsmt import ./html.tar.gz /var/www/html
 
 # Force treating destination as bind mount (skips volume check)
 dsmt import -b ./backup.tar.gz ./restored_folder
+
+# Migrate data directly from 'old_volume' to 'new_volume'
+dsmt migrate old_volume new_volume
+
+# Migrate a bind mount to a Docker volume
+dsmt migrate /var/lib/mydata my_volume
+
+# Migrate a volume to a bind mount, explicitly specifying types
+dsmt migrate my_volume /var/lib/mydata --sv --db
 ```
 
 ---

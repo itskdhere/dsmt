@@ -9,7 +9,7 @@ import {
   IconTrash,
 } from "@tabler/icons-react";
 
-type Tab = "export" | "import";
+type Tab = "export" | "import" | "migrate";
 
 interface LogLine {
   text: React.ReactNode;
@@ -139,7 +139,7 @@ const getLogsSequence = (tab: Tab, vol: string): LogLine[] => {
         },
       ];
     }
-  } else {
+  } else if (tab === "import") {
     if (isBindMount) {
       return [
         {
@@ -257,7 +257,78 @@ const getLogsSequence = (tab: Tab, vol: string): LogLine[] => {
         },
       ];
     }
+  } else if (tab === "migrate") {
+    const isSrcBind = isBindMount;
+    const srcType = isSrcBind ? "bind mount" : "volume";
+    const dstVol = isSrcBind ? "production-db" : "/Users/demo/dsmt/restore";
+    const isDstBind = dstVol.includes("/") || dstVol.includes("\\");
+    const dstType = isDstBind ? "bind mount" : "volume";
+
+    return [
+      {
+        text: (
+          <span className="text-primary-accent">
+            Auto-detected source {srcType}: {vol}
+          </span>
+        ),
+        type: "info",
+        delay: 500,
+        valueHighlight: "auto-detect",
+      },
+      {
+        text: (
+          <span className="text-primary-accent">
+            Auto-detected destination {dstType}: {dstVol}
+          </span>
+        ),
+        type: "info",
+        delay: 500,
+        valueHighlight: "auto-detect",
+      },
+      {
+        text: `Preparing to migrate from ${srcType} ${vol} to ${dstType} ${dstVol}...`,
+        type: "spinner",
+        delay: 600,
+        valueHighlight: "socket",
+      },
+      {
+        text: (
+          <span>
+            Migrating data from{" "}
+            <span className="text-primary-accent">{vol}</span> to{" "}
+            <span className="text-glow-accent">{dstVol}</span>...
+          </span>
+        ),
+        type: "spinner",
+        delay: 800,
+        valueHighlight: "zero-dep",
+      },
+      {
+        text: (
+          <span>
+            Migrating data from{" "}
+            <span className="text-primary-accent">{vol}</span> to{" "}
+            <span className="text-glow-accent">{dstVol}</span>...
+          </span>
+        ),
+        type: "spinner",
+        delay: 1000,
+        valueHighlight: "streaming",
+      },
+      {
+        text: (
+          <span>
+            <span className="text-glow-accent">✔</span> Successfully migrated
+            from {srcType} {vol} to {dstType} {dstVol}
+          </span>
+        ),
+        type: "success",
+        delay: 500,
+        valueHighlight: "cleanup",
+      },
+    ];
   }
+  return [];
 };
 
 export default function DemoSection() {
@@ -335,7 +406,9 @@ export default function DemoSection() {
     const commandText =
       tab === "export"
         ? `dsmt export ${vol} ./backups`
-        : `dsmt import ./backups/${getBasename(vol)}.tar.gz ${vol}`;
+        : tab === "import"
+          ? `dsmt import ./backups/${getBasename(vol)}.tar.gz ${vol}`
+          : `dsmt migrate ${vol} ${vol.includes("/") || vol.includes("\\") ? "production-db" : "/Users/demo/dsmt/restore"}`;
     setCurrentCommand(commandText);
 
     let charIndex = 0;
@@ -440,9 +513,14 @@ export default function DemoSection() {
     },
     {
       id: "streaming",
-      title: "Direct Tarball Archiving",
+      title:
+        activeTab === "migrate"
+          ? "Direct Stream Migration"
+          : "Direct Tarball Archiving",
       description:
-        "Mounts the Docker storage alongside the target host path to archive and compress in a single pass.",
+        activeTab === "migrate"
+          ? "Mounts source and destination concurrently to stream data directly, avoiding disk write overhead."
+          : "Mounts the Docker storage alongside the target host path to archive and compress in a single pass.",
       icon: <IconTerminal size={18} className="text-glow-accent" />,
     },
     {
@@ -534,6 +612,17 @@ export default function DemoSection() {
                     }`}
                   >
                     Import
+                  </button>
+                  <button
+                    onClick={() => !isAnimating && setActiveTab("migrate")}
+                    disabled={isAnimating}
+                    className={`rounded px-3 py-1 font-mono text-xs transition-all ${
+                      activeTab === "migrate"
+                        ? "border border-hairline bg-[#111D3A] text-primary-accent"
+                        : "border border-transparent text-text-muted hover:text-text-primary"
+                    }`}
+                  >
+                    Migrate
                   </button>
                 </div>
               </div>

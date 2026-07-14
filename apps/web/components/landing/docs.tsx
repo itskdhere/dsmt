@@ -7,9 +7,10 @@ import {
   IconHelpCircle,
   IconPackageImport,
   IconPackageExport,
+  IconRouteSquare,
 } from "@tabler/icons-react";
 
-type TabId = "export" | "import";
+type TabId = "export" | "import" | "migrate";
 
 interface CommandArgument {
   name: string;
@@ -44,7 +45,7 @@ export default function DocsSection() {
   const [activeTab, setActiveTab] = useState<TabId>("export");
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
-  const commands: Record<"export" | "import", CommandData> = {
+  const commands: Record<TabId, CommandData> = {
     export: {
       id: "export",
       name: "dsmt export",
@@ -157,6 +158,72 @@ export default function DocsSection() {
         },
       ],
     },
+    migrate: {
+      id: "migrate",
+      name: "dsmt migrate",
+      summary: "Migrate data directly from source to destination",
+      description:
+        "The migrate command transfers data directly from a source Docker Storage (volume or bind mount) to a destination Docker Storage (volume or bind mount) in a single run. By performing an in-memory or container-to-container tar pipeline using an isolated busybox container, DSMT performs the entire migration without generating any intermediate tarballs on your host system disk.",
+      syntax: "dsmt migrate <src> <dst> [options]",
+      arguments: [
+        {
+          name: "src",
+          type: "String",
+          required: true,
+          description:
+            "Source Docker volume name or absolute directory path of the local bind mount to migrate.",
+        },
+        {
+          name: "dst",
+          type: "String",
+          required: true,
+          description:
+            "Destination Docker volume name or absolute directory path of the local bind mount to copy data to.",
+        },
+      ],
+      options: [
+        {
+          flag: "--sv, --src-volume",
+          description:
+            "Force DSMT to treat the <src> parameter as a Docker Volume (disables auto-detection).",
+        },
+        {
+          flag: "--sb, --src-bind",
+          description:
+            "Force DSMT to treat the <src> parameter as a Host Bind Mount (disables auto-detection).",
+        },
+        {
+          flag: "--dv, --dst-volume",
+          description:
+            "Force DSMT to treat the <dst> parameter as a Docker Volume (disables auto-detection).",
+        },
+        {
+          flag: "--db, --dst-bind",
+          description:
+            "Force DSMT to treat the <dst> parameter as a Host Bind Mount (disables auto-detection).",
+        },
+      ],
+      examples: [
+        {
+          label: "Volume to Volume",
+          command: "dsmt migrate old_volume new_volume",
+          comment:
+            "Migrates all contents from volume 'old_volume' directly to 'new_volume'.",
+        },
+        {
+          label: "Bind Mount to Volume",
+          command: "dsmt migrate /var/lib/mydata my_volume",
+          comment:
+            "Migrates all files from directory '/var/lib/mydata' into volume 'my_volume'.",
+        },
+        {
+          label: "Explicit overrides",
+          command: "dsmt migrate my_volume /var/lib/mydata --sv --db",
+          comment:
+            "Forces treating 'my_volume' as a volume and '/var/lib/mydata' as a bind mount.",
+        },
+      ],
+    },
   };
 
   const triggerCopy = (text: string, id: string) => {
@@ -187,7 +254,7 @@ export default function DocsSection() {
         </div>
 
         <div className="mx-auto flex max-w-5xl flex-col gap-8">
-          <div className="mx-auto flex w-full max-w-xs justify-center gap-1.5 rounded-full border border-hairline bg-surface-1/80 p-1">
+          <div className="mx-auto flex w-full max-w-md justify-center gap-1.5 rounded-full border border-hairline bg-surface-1/80 p-1">
             <button
               onClick={() => setActiveTab("export")}
               className={`flex flex-1 items-center justify-center gap-2 rounded-full py-2.5 font-sans text-xs font-bold transition-all sm:text-sm ${
@@ -210,6 +277,18 @@ export default function DocsSection() {
             >
               <IconPackageImport size={16} />
               <span>Import</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab("migrate")}
+              className={`flex flex-1 items-center justify-center gap-2 rounded-full py-2.5 font-sans text-xs font-bold transition-all sm:text-sm ${
+                activeTab === "migrate"
+                  ? "bg-primary-accent text-canvas shadow-lg"
+                  : "text-text-muted hover:text-text-primary"
+              }`}
+            >
+              <IconRouteSquare size={16} />
+              <span>Migrate</span>
             </button>
           </div>
 
@@ -392,10 +471,13 @@ export default function DocsSection() {
                 </div>
                 <p className="font-sans text-xs leading-relaxed text-text-muted sm:text-sm">
                   DSMT automatically detects if the{" "}
-                  {activeTab === "export"
-                    ? "source <src>"
-                    : "destination <dst>"}{" "}
-                  parameter is a Docker Volume or a local Host Bind Mount:
+                  {activeTab === "migrate"
+                    ? "source <src> and destination <dst>"
+                    : activeTab === "export"
+                      ? "source <src>"
+                      : "destination <dst>"}{" "}
+                  parameters refer to a Docker Volume or a local Host Bind
+                  Mount:
                 </p>
                 <div className="mt-2 grid grid-cols-1 gap-4 md:grid-cols-2">
                   <div className="space-y-1 rounded-lg border border-hairline bg-canvas p-4">
@@ -431,13 +513,35 @@ export default function DocsSection() {
                 <p className="mt-2 font-sans text-[11px] leading-relaxed text-text-muted sm:text-xs">
                   To override auto-detection and resolve naming ambiguity, use
                   explicit flags:{" "}
-                  <code className="font-mono text-[10px] text-primary-accent">
-                    -v, --volume
-                  </code>{" "}
-                  or{" "}
-                  <code className="font-mono text-[10px] text-primary-accent">
-                    -b, --bind
-                  </code>
+                  {activeTab === "migrate" ? (
+                    <>
+                      <code className="font-mono text-[10px] text-primary-accent">
+                        --sv, --src-volume
+                      </code>
+                      ,{" "}
+                      <code className="font-mono text-[10px] text-primary-accent">
+                        --sb, --src-bind
+                      </code>
+                      ,{" "}
+                      <code className="font-mono text-[10px] text-primary-accent">
+                        --dv, --dst-volume
+                      </code>
+                      , or{" "}
+                      <code className="font-mono text-[10px] text-primary-accent">
+                        --db, --dst-bind
+                      </code>
+                    </>
+                  ) : (
+                    <>
+                      <code className="font-mono text-[10px] text-primary-accent">
+                        -v, --volume
+                      </code>{" "}
+                      or{" "}
+                      <code className="font-mono text-[10px] text-primary-accent">
+                        -b, --bind
+                      </code>
+                    </>
+                  )}
                   .
                 </p>
               </div>

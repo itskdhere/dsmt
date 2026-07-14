@@ -37,11 +37,11 @@ export default function HeroSection({ latestVersion }: HeroProps) {
         </h1>
 
         <p className="mx-auto mb-10 max-w-4xl font-sans text-lg leading-relaxed font-normal text-text-muted sm:text-xl">
-          Import and Export Docker Volumes and Bind Mounts on Windows, macOS,
-          and Linux.
+          Import, Export and Migrate Docker Volumes and Bind Mounts on Windows,
+          macOS, and Linux.
           <br />
-          Running directly over the native Docker socket with zero external host
-          dependencies.
+          Running directly over the native Docker Engine API with zero external
+          host dependencies.
         </p>
 
         <div className="mx-auto flex w-full max-w-xs flex-col items-center justify-center gap-4 sm:max-w-none sm:flex-row">
