@@ -8,7 +8,51 @@ if (!$is64Bit) {
 }
 
 # Detect OS Architecture
-$osArch = [System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture
+$osArch = $null
+try {
+    $type = [System.Type]::GetType("System.Runtime.InteropServices.RuntimeInformation")
+    if ($type) {
+        $osArch = [System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString()
+    }
+} catch {}
+
+# Fallback 1: Environment Variables
+if ([string]::IsNullOrEmpty($osArch)) {
+    $envArch = $env:PROCESSOR_ARCHITEW6432
+    if ([string]::IsNullOrEmpty($envArch)) {
+        $envArch = $env:PROCESSOR_ARCHITECTURE
+    }
+    if ($envArch -eq 'ARM64') {
+        $osArch = 'Arm64'
+    } elseif ($envArch -eq 'AMD64' -or $envArch -eq 'IA64') {
+        $osArch = 'X64'
+    }
+}
+
+# Fallback 2: Registry (System Environment Variable)
+if ([string]::IsNullOrEmpty($osArch)) {
+    try {
+        $regArch = (Get-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" -ErrorAction SilentlyContinue).PROCESSOR_ARCHITECTURE
+        if ($regArch -eq 'ARM64') {
+            $osArch = 'Arm64'
+        } elseif ($regArch -eq 'AMD64' -or $regArch -eq 'IA64') {
+            $osArch = 'X64'
+        }
+    } catch {}
+}
+
+# Fallback 3: CIM/WMI
+if ([string]::IsNullOrEmpty($osArch)) {
+    try {
+        $cimArch = (Get-CimInstance Win32_OperatingSystem -ErrorAction SilentlyContinue).OSArchitecture
+        if ($cimArch -like '*ARM*') {
+            $osArch = 'Arm64'
+        } elseif ($cimArch -like '*64*') {
+            $osArch = 'X64'
+        }
+    } catch {}
+}
+
 if ($osArch -eq 'Arm64') {
     $binaryName = "dsmt-windows-arm64.exe"
 } elseif ($osArch -eq 'X64') {
